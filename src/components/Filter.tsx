@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
+import Image from 'next/image';
+import { filterIcon } from '../assets';
 
 type SortType = 'RECENTLY' | 'POPULARITY';
 
@@ -48,9 +50,12 @@ const Filter = () => {
                     isSelected={filter.sort === item.sort}
                     onClick={() => onChangeSortType(item.sort)}>
                     {item.summary}
-                    <input onChange={(e) => onChangeKeyword(e)} />
                 </_SortButton>
             ))}
+            <_StartScoreFilterButton>
+                <Image src={filterIcon} alt="별점필터" />
+            </_StartScoreFilterButton>
+            <_SearchInput />
         </_Wrapper>
     );
 };
@@ -67,7 +72,16 @@ const _SortButton = styled.button<{
     height: 51px;
     font-size: 24px;
     font-weight: ${({ isSelected, theme }) => isSelected && theme.font.medium};
-    color: ${({ theme, isSelected }) => (isSelected ? theme.color.main : theme.color.grey700)};
+    color: ${({ theme, isSelected }) => (isSelected ? theme.color.main : theme.color.gray700)};
     border-bottom: ${({ theme, isSelected }) =>
         isSelected ? `3px solid ${theme.color.main}` : ''};
+`;
+const _StartScoreFilterButton = styled.button`
+    margin-left: auto;
+`;
+const _SearchInput = styled.input`
+    width: 416px;
+    height: 52px;
+    margin-left: 20px;
+    border: 2px solid ${({ theme }) => theme.color.gray500};
 `;
