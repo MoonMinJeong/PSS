@@ -78,17 +78,6 @@ const _TagList = styled.ul`
     gap: 0 8px;
     overflow: scroll;
 `;
-const _Tag = styled.li`
-    height: 23px;
-    padding: 0 12px;
-    color: ${({ theme }) => theme.color.white};
-    font-weight: ${({ theme }) => theme.font.medium};
-    font-size: 12px;
-    background-color: ${({ theme }) => theme.color.main};
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-`;
 const _SubInfo = styled.div`
     display: flex;
     margin-left: auto;
