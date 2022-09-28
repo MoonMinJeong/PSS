@@ -45,8 +45,9 @@ const Filter = () => {
     };
     return (
         <_Wrapper>
-            {filterArray.map((item) => (
+            {filterArray.map((item, index) => (
                 <_SortButton
+                    key={index}
                     isSelected={filter.sort === item.sort}
                     onClick={() => onChangeSortType(item.sort)}>
                     {item.summary}

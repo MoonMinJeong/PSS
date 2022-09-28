@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { filterIcon, starIcon, viewIcon } from '../assets';
 import Image from 'next/image';
+import Tag from './common/Tag';
 
 interface Props {
     postList: any[];
@@ -11,9 +12,9 @@ const PostList = () => {
         <_Wrapper>
             {Array(10)
                 .fill(void 0)
-                .map((_) => (
-                    <_PostCard>
-                        <img src={filterIcon} />
+                .map((_, index) => (
+                    <_PostCard key={index}>
+                        <Image src={filterIcon} alt="필터 아이콘" />
                         <h1>우리 프로젝트는~~~</h1>
                         <p>
                             프로젝트 소개? 이제는 여기서 하세요 ㅋ 최강 문정민 최강 프소서 최강
@@ -21,8 +22,8 @@ const PostList = () => {
                         </p>
                         <_FlexWrapper>
                             <_TagList>
-                                <_Tag>Java</_Tag>
-                                <_Tag>Next</_Tag>
+                                <Tag text={'Java'} />
+                                <Tag text={'Spring boot'} />
                             </_TagList>
                             <_SubInfo>
                                 <Image src={starIcon} alt="별점" />
@@ -76,17 +77,6 @@ const _TagList = styled.ul`
     display: flex;
     gap: 0 8px;
     overflow: scroll;
-`;
-const _Tag = styled.li`
-    height: 23px;
-    padding: 0 12px;
-    color: ${({ theme }) => theme.color.white};
-    font-weight: ${({ theme }) => theme.font.medium};
-    font-size: 12px;
-    background-color: ${({ theme }) => theme.color.main};
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
 `;
 const _SubInfo = styled.div`
     display: flex;
