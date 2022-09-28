@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
-import { filterIcon, starIcon, viewIcon } from '../assets';
+import { starIcon, viewIcon } from '../assets';
 import Image from 'next/image';
 import Tag from './common/Tag';
+import mainImage from '../assets/dummy/mainImage.svg';
 
 interface Props {
     postList: any[];
@@ -14,7 +15,7 @@ const PostList = () => {
                 .fill(void 0)
                 .map((_, index) => (
                     <_PostCard key={index}>
-                        <Image src={filterIcon} alt="필터 아이콘" />
+                        <Image src={mainImage} alt="대표 사진" />
                         <h1>우리 프로젝트는~~~</h1>
                         <p>
                             프로젝트 소개? 이제는 여기서 하세요 ㅋ 최강 문정민 최강 프소서 최강
