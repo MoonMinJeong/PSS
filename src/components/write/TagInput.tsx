@@ -1,31 +1,46 @@
 import styled from '@emotion/styled';
-import { ChangeEvent } from 'react';
-import { InputState } from './InputSession';
+import { ChangeEvent, useState, FormEvent } from 'react';
+import { IntroductType } from '../../pages/write';
 
 interface PropsType {
-    name: string;
+    name: 'skill' | 'attend';
     placeholder: string;
-    value?: string;
-    tag?: [];
-    setValue?: (e: ChangeEvent<HTMLInputElement>, name: string) => void;
+    Introduct: IntroductType;
+    setIntroduct: (Introduct: IntroductType) => void;
 }
 
-function TagInput({ name, placeholder, value, tag = [], setValue }: PropsType) {
-    const InputChange = setValue
-        ? (e: ChangeEvent<HTMLInputElement>) => {
-              setValue(e, name);
-              console.log(value);
-          }
-        : undefined;
+function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
+    const [tagWord, setWord] = useState<string>('');
+    const tag = Introduct[name];
+
+    const TagChange = (e: ChangeEvent<HTMLInputElement>) => setWord(e.target.value);
+
+    const addTag = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (tag.includes(tagWord) || tagWord === '') return;
+        setIntroduct({ ...Introduct, [name]: Introduct[name].concat(tagWord) });
+        setWord('');
+    };
+
+    const removeTag = (idx: number) =>
+        setIntroduct({ ...Introduct, [name]: Introduct[name].filter((_, i) => idx !== i) });
+
     return (
         <_Wrapper>
-            {tag.length !== 0 && tag.map((el, idx) => <_InputTag key={idx}>{el}</_InputTag>)}
-            <_NameInput
-                name={name}
-                value={value}
-                placeholder={placeholder}
-                onChange={InputChange}
-            />
+            {tag.length !== 0 &&
+                tag.map((el, idx) => (
+                    <_InputTag key={idx} onClick={() => removeTag(idx)}>
+                        {el}
+                    </_InputTag>
+                ))}
+            <form onSubmit={addTag}>
+                <_NameInput
+                    name={name}
+                    value={tagWord}
+                    placeholder={placeholder}
+                    onChange={TagChange}
+                />
+            </form>
         </_Wrapper>
     );
 }
@@ -33,18 +48,31 @@ function TagInput({ name, placeholder, value, tag = [], setValue }: PropsType) {
 const _Wrapper = styled.div`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
 `;
 
-const _NameInput = styled.input<PropsType>`
-    width: 500px;
-    margin: 20px 0;
-    font-size: ${({ name }) => (name === 'title' ? '36px' : '20px')};
-    font-weight: ${({ name }) => (name === 'title' ? 'bold' : 'normal')};
+const _NameInput = styled.input`
+    width: 400px;
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: ${({ theme }) => theme.font.bold};
     ::placeholder {
         color: ${({ theme }) => theme.color.gray700};
     }
 `;
 
-const _InputTag = styled.div``;
+const _InputTag = styled.div`
+    padding: 5px 30px;
+    margin: 5px 5px;
+    border-radius: 50px;
+    border: 2px solid ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.color.main};
+    font-weight: ${({theme}) => theme.font.bold};
+    :hover{
+        border: 2px solid ${({ theme }) => theme.color.systemRed};
+        color: ${({ theme }) => theme.color.systemRed};
+    }
+`;
 
 export default TagInput;
