@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, useState, FormEvent } from 'react';
+import { ChangeEvent, useState, FormEvent, KeyboardEvent } from 'react';
 import { IntroductType } from '../../pages/write';
 
 interface PropsType {
@@ -22,8 +22,11 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
         setWord('');
     };
 
+    const removeTagBack = (e: KeyboardEvent<HTMLInputElement>) =>
+        e.keyCode === 8 && setIntroduct({ ...Introduct, [name]: tag.filter((_, i) => tag.length !== i + 1) });
+
     const removeTag = (idx: number) =>
-        setIntroduct({ ...Introduct, [name]: Introduct[name].filter((_, i) => idx !== i) });
+        setIntroduct({ ...Introduct, [name]: tag.filter((_, i) => idx !== i) });
 
     return (
         <_Wrapper>
@@ -39,6 +42,7 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
                     value={tagWord}
                     placeholder={placeholder}
                     onChange={TagChange}
+                    onKeyDown={removeTagBack}
                 />
             </form>
         </_Wrapper>
@@ -68,8 +72,8 @@ const _InputTag = styled.div`
     border-radius: 50px;
     border: 2px solid ${({ theme }) => theme.color.main};
     color: ${({ theme }) => theme.color.main};
-    font-weight: ${({theme}) => theme.font.bold};
-    :hover{
+    font-weight: ${({ theme }) => theme.font.bold};
+    :hover {
         border: 2px solid ${({ theme }) => theme.color.systemRed};
         color: ${({ theme }) => theme.color.systemRed};
     }
