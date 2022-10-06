@@ -23,7 +23,9 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
     };
 
     const removeTagBack = (e: KeyboardEvent<HTMLInputElement>) =>
-        e.keyCode === 8 && setIntroduct({ ...Introduct, [name]: tag.filter((_, i) => tag.length !== i + 1) });
+        e.keyCode === 8 &&
+        tagWord === '' &&
+        setIntroduct({ ...Introduct, [name]: tag.filter((_, i) => tag.length !== i + 1) });
 
     const removeTag = (idx: number) =>
         setIntroduct({ ...Introduct, [name]: tag.filter((_, i) => idx !== i) });
