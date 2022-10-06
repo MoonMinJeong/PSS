@@ -11,7 +11,7 @@ export interface IntroductType {
     attend: string[];
     content: string;
     shortIntro: string;
-    mainImg: File | null;
+    mainImg: File | null | string;
 }
 
 function WritePost() {
@@ -31,9 +31,16 @@ function WritePost() {
             <_InputWrapper>
                 <InputSession Introduct={Introduct} setIntroduct={setIntroduct} />
                 <FootMenu setModal={setModal} />
-                {modal && <ModalWrite setModal={setModal} setIntroduct={setIntroduct} Introduct={Introduct}  />}
+                {(
+                    <ModalWrite
+                        setModal={setModal}
+                        setIntroduct={setIntroduct}
+                        Introduct={Introduct}
+                        modal={modal}
+                    />
+                )}
             </_InputWrapper>
-            <PreView setModal={setModal}/>
+            <PreView setModal={setModal} />
         </_Wrapper>
     );
 }
