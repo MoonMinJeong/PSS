@@ -1,27 +1,22 @@
-import styled from "@emotion/styled"
+import styled from '@emotion/styled';
 
-interface PropsType{
-    inputFontSize: string,
-    width: string,
-    height: string,
-    inputFontWeight: string,
-    
+interface PropsType {
+    inputFontSize: string;
+    width: string;
+    height: string;
+    inputFontWeight: string;
+    placeholder: string;
 }
 
-function Input(props: PropsType){
-    return <_inputElement 
-            inputFontWeight={props.inputFontWeight}
-            inputFontSize={props.inputFontSize}
-            width={props.width}
-            height={props.height}
-            />
+function Input(props: PropsType) {
+    return <_inputElement {...props} />;
 }
 
 const _inputElement = styled.button<PropsType>`
-    font-size: ${props => props.inputFontSize};
-    color: ${props => props.inputFontWeight};
-    width: ${props => props.width};
-    height: ${props => props.height};
-`
+    font-size: ${({ inputFontSize }) => inputFontSize};
+    font-weight: ${({ inputFontWeight }) => inputFontWeight};
+    width: ${({ width }) => width};
+    height: ${({ height }) => height};
+`;
 
-export default Input
+export default Input;
