@@ -11,10 +11,10 @@ function FootMenu({ setModal }: PropsType) {
 
     return (
         <_Wrapper>
-            <div>
+            <_BackPageButton>
                 <Image src={backPage} />
                 나가기
-            </div>
+            </_BackPageButton>
             <_WritePost onClick={SetModal}>작성하기</_WritePost>
         </_Wrapper>
     );
@@ -26,17 +26,18 @@ const _Wrapper = styled.div`
     justify-content: space-between;
 `;
 
-const _BackImage = styled(Image)`
-    margin-right: 100px;
-`;
-
 const _WritePost = styled.button`
     border: none;
     width: 130px;
     height: 40px;
     font-size: 16px;
     border-radius: 14px;
+    font-weight: ${({ theme }) => theme.font.bold};
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.main};
+`;
+
+const _BackPageButton = styled.button`
+    font-size: 16px;
 `;
 export default FootMenu;
