@@ -4,6 +4,7 @@ import FootMenu from '../components/write/FootMenu';
 import InputSession from '../components/write/PutInfoWrite';
 import PreView from '../components/write/Preview';
 import ModalWrite from '../components/write/ModalWrite';
+import Editor from '../components/write/Editor';
 
 export interface IntroductType {
     title: string;
@@ -30,15 +31,14 @@ function WritePost() {
         <_Wrapper>
             <_InputWrapper>
                 <InputSession Introduct={Introduct} setIntroduct={setIntroduct} />
+                <Editor Introduct={Introduct} setIntroduct={setIntroduct} />
                 <FootMenu setModal={setModal} />
-                {(
-                    <ModalWrite
-                        setModal={setModal}
-                        setIntroduct={setIntroduct}
-                        Introduct={Introduct}
-                        modal={modal}
-                    />
-                )}
+                <ModalWrite
+                    setModal={setModal}
+                    setIntroduct={setIntroduct}
+                    Introduct={Introduct}
+                    modal={modal}
+                />
             </_InputWrapper>
             <PreView setModal={setModal} />
         </_Wrapper>
