@@ -4,6 +4,7 @@ import Tag from '../common/Tag';
 import { heartIcon, starIcon, viewIcon } from '../../assets';
 import styled from '@emotion/styled';
 import profile from '../../assets/dummy/profile.svg';
+import { howLong } from '../../utils/translate';
 
 interface PopularityItem {
     icon: string;
@@ -31,6 +32,8 @@ const popularityArr: PopularityItem[] = [
 
 interface PostCardItemProps {}
 
+const oneDayAGo = new Date(2022, 9, 12, 22, 54, 0);
+
 const PostCard = ({}: PostCardItemProps) => {
     const dummy = {
         heart_count: 178,
@@ -52,7 +55,7 @@ const PostCard = ({}: PostCardItemProps) => {
             <_FlexWrapper>
                 <Image src={profile} />
                 <p className="author">hyeyeonchurros</p>
-                <p className="howLong">1일 전</p>
+                <p className="howLong">{howLong(oneDayAGo)}</p>
                 {popularityArr.map((item) => (
                     <_Popularity>
                         <Image src={item.icon} />
