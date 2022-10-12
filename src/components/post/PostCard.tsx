@@ -45,10 +45,13 @@ const PostCard = ({}: PostCardItemProps) => {
                 프로젝트 소개? 이제는 여기서 하세요 ㅋ 최강 문정민 최강 프소서 최강 문정민 최강
                 프소서 최강 문정민 최강 프소서
             </p>
-            <_TagList>
-                <Tag text={'Java'} />
-                <Tag text={'Spring boot'} />
-            </_TagList>
+            <_FlexWrapper>
+                <_TagList>
+                    <Tag text={'Java'} />
+                    <Tag text={'Spring boot'} />
+                </_TagList>
+                <p className="howLong">1일 전</p>
+            </_FlexWrapper>
             <_FlexWrapper>
                 <Image src={profile} />
                 <p className="author">hyeyeonchurros</p>
@@ -95,13 +98,17 @@ const _FlexWrapper = styled.div`
         color: ${({ theme }) => theme.color.gray900};
         font-size: 14px;
     }
+    > .howLong {
+        margin-left: auto;
+        font-size: 12px;
+        color: ${({ theme }) => theme.color.gray700};
+    }
 `;
 const _TagList = styled.ul`
     width: 300px;
     display: flex;
     gap: 0 8px;
     overflow: scroll;
-    margin-top: 12px;
 `;
 const _Popularity = styled.div`
     display: flex;
