@@ -32,7 +32,7 @@ const popularityArr: PopularityItem[] = [
 
 interface PostCardItemProps {}
 
-const oneDayAGo = new Date(2022, 9, 12, 22, 54, 0);
+const oneDayAGo = new Date(2022, 9, 17, 16, 54, 0);
 
 const PostCard = ({}: PostCardItemProps) => {
     const dummy = {
@@ -110,6 +110,7 @@ const _TagList = styled.ul`
     display: flex;
     gap: 0 8px;
     overflow: scroll;
+    margin-top: 12px;
 `;
 const _Popularity = styled.div`
     display: flex;
