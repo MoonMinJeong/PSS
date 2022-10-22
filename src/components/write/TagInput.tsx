@@ -33,11 +33,17 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
     return (
         <_Wrapper>
             {tag.length !== 0 &&
-                tag.map((el, idx) => (
-                    <_InputTag key={idx} onClick={() => removeTag(idx)}>
-                        {el}
-                    </_InputTag>
-                ))}
+                tag.map((el, idx) =>
+                    name === 'skill' ? (
+                        <_SkillTag key={idx} onClick={() => removeTag(idx)}>
+                            {el}
+                        </_SkillTag>
+                    ) : (
+                        <_AttendTag key={idx} onClick={() => removeTag(idx)}>
+                            {el}
+                        </_AttendTag>
+                    ),
+                )}
             <form onSubmit={addTag}>
                 <_NameInput
                     name={name}
@@ -68,15 +74,25 @@ const _NameInput = styled.input`
     }
 `;
 
-const _InputTag = styled.div`
+const _SkillTag = styled.div`
     padding: 5px 30px;
     margin: 5px 5px;
     border-radius: 50px;
-    border: 2px solid ${({ theme }) => theme.color.main};
+    background-color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.color.white};
+    font-weight: ${({ theme }) => theme.font.bold};
+    :hover {
+        background-color: ${({ theme }) => theme.color.systemRed};
+    }
+`;
+
+const _AttendTag = styled.div`
+    padding: 5px 10px;
+    margin: 5px 5px;
+    border-radius: 50px;
     color: ${({ theme }) => theme.color.main};
     font-weight: ${({ theme }) => theme.font.bold};
     :hover {
-        border: 2px solid ${({ theme }) => theme.color.systemRed};
         color: ${({ theme }) => theme.color.systemRed};
     }
 `;
