@@ -48,13 +48,15 @@ const _ModalBackground = styled.div`
 const _ImageWrapper = styled.div`
     background-image: url(${LoginBackGround.src});
     background-repeat: no-repeat;
-    background-size: contain;
-    width: 400px;
+    background-position: center;
+    background-size: cover;
+    width: 300px;
 `;
 
 const _ContentContainer = styled.div`
     display: flex;
-    margin-top: 78px;
+    width: 500px;
+    margin-top: 108px;
     flex-direction: column;
     align-items: center;
     > h1 {
@@ -70,8 +72,7 @@ const _ContentContainer = styled.div`
 `;
 
 const _ModalContainer = styled.div`
-    width: 800px;
-    height: 400px;
+    height: 440px;
     border-radius: 16px;
     background-color: ${({ theme }) => theme.color.white};
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
