@@ -27,8 +27,8 @@ const LoginModal = () => {
                         color={'#8D8D8D'}
                         onClick={() => {}}
                     />
+                    <img src={CloseIcon.src} />
                 </_ContentContainer>
-                <img src={CloseIcon.src} />
             </_ModalContainer>
         </_ModalBackground>
     );
@@ -69,6 +69,14 @@ const _ContentContainer = styled.div`
         margin: 8px 0 24px;
         color: ${({ theme }) => theme.color.gray700};
     }
+    > img {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
 `;
 
 const _ModalContainer = styled.div`
@@ -79,14 +87,6 @@ const _ModalContainer = styled.div`
     display: flex;
     overflow: hidden;
     position: relative;
-    > img {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-    }
 `;
 
 export default LoginModal;
