@@ -1,6 +1,6 @@
 import Filter from '../components/Filter';
 import styled from '@emotion/styled';
-import PostList from '../components/PostList';
+import PostList from '../components/post/PostList';
 
 const MainPage = () => {
     return (
