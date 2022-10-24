@@ -11,7 +11,7 @@ interface Props {
 const Button = ({ text, img, color, backgroundColor, onClick }: Props) => {
     return (
         <ButtonWrapper backgroundColor={backgroundColor} onClick={onClick}>
-            <img src={img} />
+            <img src={img} alt="로그인배경" />
             <Text color={color}>{text}</Text>
         </ButtonWrapper>
     );
