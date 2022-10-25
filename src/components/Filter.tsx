@@ -84,6 +84,7 @@ export default Filter;
 const _Wrapper = styled.div`
     width: 1320px;
     display: flex;
+    margin-top: 80px;
 `;
 const _SortButton = styled.button<{
     isSelected: boolean;

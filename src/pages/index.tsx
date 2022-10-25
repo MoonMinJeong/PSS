@@ -1,10 +1,12 @@
 import Filter from '../components/Filter';
 import styled from '@emotion/styled';
 import PostList from '../components/post/PostList';
+import Banner from '../components/Banner';
 
 const MainPage = () => {
     return (
         <_Wrapper>
+            <Banner />
             <Filter />
             <PostList />
         </_Wrapper>

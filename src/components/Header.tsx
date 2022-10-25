@@ -5,6 +5,7 @@ import { arrowIcon } from '../assets';
 import icon from '../assets/dummy/profile.svg';
 import DropdownItem, { DropDownItem } from './common/DropdownItem';
 import { useMemo, useState } from 'react';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 export default function Header() {
     const dropdownItems: DropDownItem[] = useMemo(() => {
@@ -50,7 +51,11 @@ export default function Header() {
                         <button onClick={() => setDropdownOpened(!dropdownOpened)}>
                             <Image src={arrowIcon} alt="더보기" />
                         </button>
-                        {dropdownOpened && <DropdownItem items={dropdownItems} />}
+                        {dropdownOpened && (
+                            <OutsideClickHandler onOutsideClick={() => setDropdownOpened(false)}>
+                                <DropdownItem items={dropdownItems} />
+                            </OutsideClickHandler>
+                        )}
                     </_ProfileWrapper>
                 </_Content>
             </_Wrapper>
