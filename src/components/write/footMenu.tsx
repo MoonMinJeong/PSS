@@ -47,7 +47,7 @@ const _BackPageButton = styled.button`
 
 const _SaveSummitBox = styled.div`
     font-size: 16px;
-    font-weight: ${({theme}) => theme.font.regular};
-    color: ${({theme}) => theme.color.gray500}
+    font-weight: ${({ theme }) => theme.font.regular};
+    color: ${({ theme }) => theme.color.gray500};
 `;
 export default FootMenu;

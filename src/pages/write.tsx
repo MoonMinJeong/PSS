@@ -4,7 +4,7 @@ import FootMenu from '../components/write/FootMenu';
 import InputSession from '../components/write/PutInfoWrite';
 import PreView from '../components/write/Preview';
 import ModalWrite from '../components/write/ModalWrite';
-import Editor from '../components/write/Editor';
+import { Editor } from '../components/write/Editor';
 
 export interface IntroductType {
     title: string;
@@ -31,7 +31,9 @@ function WritePost() {
         <_Wrapper>
             <_InputWrapper>
                 <InputSession Introduct={Introduct} setIntroduct={setIntroduct} />
-                <Editor Introduct={Introduct} setIntroduct={setIntroduct} />
+                <_EditorBox>
+                    <Editor Introduct={Introduct} setIntroduct={setIntroduct} />
+                </_EditorBox>
                 <FootMenu setModal={setModal} />
                 <ModalWrite
                     setModal={setModal}
@@ -40,7 +42,7 @@ function WritePost() {
                     modal={modal}
                 />
             </_InputWrapper>
-            <PreView setModal={setModal} />
+            <PreView modal={modal} setModal={setModal} Introduct={Introduct} />
         </_Wrapper>
     );
 }
@@ -52,6 +54,10 @@ const _Wrapper = styled.div`
 const _InputWrapper = styled.div`
     width: 50%;
     padding: 20px 40px;
+`;
+
+const _EditorBox = styled.div`
+    height: 500px;
 `;
 
 export default WritePost;
