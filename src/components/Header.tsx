@@ -38,30 +38,36 @@ export default function Header() {
     }, []);
     const [dropdownOpened, setDropdownOpened] = useState(false);
     return (
-        <_Wrapper>
-            <_Content>
-                <p></p>
-                <Link href={'/write'}>
-                    <_WritePost>소개글 작성하기</_WritePost>
-                </Link>
-                <_ProfileWrapper>
-                    <Image src={icon} alt="프로필" width={44} height={44} />
-                    <button onClick={() => setDropdownOpened(!dropdownOpened)}>
-                        <Image src={arrowIcon} alt="더보기" />
-                    </button>
-                    {dropdownOpened && <DropdownItem items={dropdownItems} />}
-                </_ProfileWrapper>
-            </_Content>
-        </_Wrapper>
+        <_Filler>
+            <_Wrapper>
+                <_Content>
+                    <p></p>
+                    <Link href={'/write'}>
+                        <_WritePost>소개글 작성하기</_WritePost>
+                    </Link>
+                    <_ProfileWrapper>
+                        <Image src={icon} alt="프로필" width={44} height={44} />
+                        <button onClick={() => setDropdownOpened(!dropdownOpened)}>
+                            <Image src={arrowIcon} alt="더보기" />
+                        </button>
+                        {dropdownOpened && <DropdownItem items={dropdownItems} />}
+                    </_ProfileWrapper>
+                </_Content>
+            </_Wrapper>
+        </_Filler>
     );
 }
-
-const _Wrapper = styled.header`
+const _Filler = styled.header`
+    padding-bottom: 68px;
+`;
+const _Wrapper = styled.div`
+    z-index: 99;
     width: 100%;
     height: 68px;
     background-color: ${({ theme }) => theme.color.white};
     display: flex;
     align-items: center;
+    position: fixed;
 `;
 const _Content = styled.div`
     display: flex;
