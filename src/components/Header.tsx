@@ -6,14 +6,16 @@ import icon from '../assets/dummy/profile.svg';
 import DropdownItem, { DropDownItem } from './common/DropdownItem';
 import { useMemo, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { useRouter } from 'next/router';
 
 export default function Header() {
+    const router = useRouter();
     const dropdownItems: DropDownItem[] = useMemo(() => {
         return [
             {
                 summary: '프로필',
                 onClickFunction: () => {
-                    console.log('프로필');
+                    router.push('/profile');
                 },
             },
             {
