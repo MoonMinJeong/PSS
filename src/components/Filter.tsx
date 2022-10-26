@@ -82,7 +82,7 @@ const Filter = () => {
 export default Filter;
 
 const _Wrapper = styled.div`
-    width: 1320px;
+    width: 1100px;
     display: flex;
     margin-top: 80px;
 `;

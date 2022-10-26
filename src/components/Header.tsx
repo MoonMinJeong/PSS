@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import Image from 'next/image';
-import { arrowIcon } from '../assets';
+import { ArrowIcon } from '../assets';
 import icon from '../assets/dummy/profile.svg';
 import DropdownItem, { DropDownItem } from './common/DropdownItem';
 import { useMemo, useState } from 'react';
@@ -51,7 +51,7 @@ export default function Header() {
                     <_ProfileWrapper>
                         <Image src={icon} alt="프로필" width={44} height={44} />
                         <button onClick={() => setDropdownOpened(!dropdownOpened)}>
-                            <Image src={arrowIcon} alt="더보기" />
+                            <ArrowIcon />
                         </button>
                         {dropdownOpened && (
                             <OutsideClickHandler onOutsideClick={() => setDropdownOpened(false)}>

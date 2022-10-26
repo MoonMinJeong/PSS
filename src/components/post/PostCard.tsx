@@ -70,7 +70,7 @@ const PostCard = ({}: PostCardItemProps) => {
 export default PostCard;
 
 const _PostCard = styled.li`
-    width: 416px;
+    width: 342px;
     height: 368px;
     cursor: pointer;
     > img {

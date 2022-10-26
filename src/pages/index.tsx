@@ -16,6 +16,7 @@ const MainPage = () => {
 export default MainPage;
 
 const _Wrapper = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
