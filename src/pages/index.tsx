@@ -8,7 +8,7 @@ const MainPage = () => {
         <_Wrapper>
             <Banner />
             <Filter />
-            <PostList />
+            <PostList postList={[]} marginTop={40} />
         </_Wrapper>
     );
 };

@@ -3,11 +3,12 @@ import PostCard from './PostCard';
 
 interface Props {
     postList: any[];
+    marginTop: number;
 }
 
-const PostList = () => {
+const PostList = ({ postList, marginTop }: Props) => {
     return (
-        <_Wrapper>
+        <_Wrapper marginTop={marginTop}>
             {Array(10)
                 .fill(void 0)
                 .map((_, index) => (
@@ -18,10 +19,10 @@ const PostList = () => {
 };
 export default PostList;
 
-const _Wrapper = styled.ul`
+const _Wrapper = styled.ul<{ marginTop: number }>`
     width: 1320px;
     display: flex;
     flex-wrap: wrap;
     gap: 48px 36px;
-    margin-top: 28px;
+    margin-top: ${({ marginTop }) => marginTop}px;
 `;
