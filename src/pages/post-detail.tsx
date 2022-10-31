@@ -31,7 +31,7 @@ export const PostDetail = () => {
                 isCancel={false}
                 onCancel={() => {}}
             />
-            <Comment writerName="김태완" content="이게 뭐냐면 바로 댓글이에요. 댓글이라고요 ㅋ" />
+            <Comment content="이게 뭐냐면 바로 댓글이에요. 댓글이라고요 ㅋ" />
         </_PostDetailContainer>
     );
 };

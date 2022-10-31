@@ -1,24 +1,14 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import profile from '../../../assets/dummy/profile.svg';
-import { howLong } from '../../../utils/translate';
+import Profile from '../Profile';
 
 interface Props {
     text: string;
-    writerName: string;
 }
 
-const oneDayAGo = new Date(2022, 9, 20, 16, 54, 0); //month에 +1
-
-const Reply = ({ text, writerName }: Props) => {
+const Reply = ({ text }: Props) => {
     return (
         <_ReplyContainer>
-            <_ProfileBox>
-                {/* TODO. Profile Link 추가 */}
-                <Image src={profile} alt="답글 프로필" width={28} height={28} />
-                <p className="writer">{writerName}</p>
-                <p className="howLong">{howLong(oneDayAGo)}</p>
-            </_ProfileBox>
+            <Profile writerName="김태완" />
             <p>{text}</p>
         </_ReplyContainer>
     );
@@ -34,22 +24,6 @@ const _ReplyContainer = styled.div`
         font-size: 16px;
         margin-top: 10px;
         color: ${({ theme }) => theme.color.gray900};
-    }
-`;
-
-const _ProfileBox = styled.div`
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    cursor: pointer;
-    > .writer {
-        font-size: 16px;
-        color: ${({ theme }) => theme.color.black};
-        font-weight: ${({ theme }) => theme.font.medium};
-    }
-    > .howLong {
-        font-size: 14px;
-        color: ${({ theme }) => theme.color.gray700};
     }
 `;
 
