@@ -53,12 +53,12 @@ const PostCard = ({}: PostCardItemProps) => {
                 <Tag text={'Spring boot'} />
             </_TagList>
             <_FlexWrapper>
-                <Image src={profile} />
+                <Image src={profile} alt={'asd'} />
                 <p className="author">hyeyeonchurros</p>
                 <p className="howLong">{howLong(oneDayAGo)}</p>
-                {popularityArr.map((item) => (
-                    <_Popularity>
-                        <Image src={item.icon} />
+                {popularityArr.map((item, index) => (
+                    <_Popularity key={index}>
+                        <Image src={item.icon} alt="asd" />
                         <p>{dummy[item.name]}</p>
                     </_Popularity>
                 ))}
