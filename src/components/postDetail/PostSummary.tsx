@@ -36,6 +36,7 @@ const _PostSummaryContainer = styled.div`
 
 const _TitleBox = styled.div`
     display: flex;
+    margin-bottom: 8px;
     > p {
         font-size: 32px;
         color: ${({ theme }) => theme.color.black};

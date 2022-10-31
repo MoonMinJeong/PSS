@@ -13,7 +13,7 @@ const SideInfo = ({ rating, viewCount }: Props) => {
         <_SideinfoConatainer>
             <_SideinfoBox>
                 <Image src={starIcon} alt="별점" width={16} />
-                <p style={{ marginRight: '12px' }}>{rating}</p>
+                <p className="rating">{rating}</p>
                 <Image src={viewIcon} alt="조회수" width={16} />
                 <p>{viewCount}</p>
             </_SideinfoBox>
@@ -38,6 +38,9 @@ const _SideinfoBox = styled.div`
         font-size: 16px;
         margin: 3px 0 0 4px;
         color: ${({ theme }) => theme.color.black};
+    }
+    > .rating {
+        margin-right: 12px;
     }
 `;
 
