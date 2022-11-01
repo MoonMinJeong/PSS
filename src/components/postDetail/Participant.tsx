@@ -22,7 +22,7 @@ const _Label = styled.p`
 
 const _ParticipantBox = styled.div`
     padding: 12px 20px;
-    width: 780px;
+    width: 100%;
     flex-wrap: wrap;
     display: flex;
     gap: 8px 12px;

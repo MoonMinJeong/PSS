@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
-import HeartButton from '../components/postDetail/HeartButton';
-import Participant from '../components/postDetail/Participant';
-import PostSummary from '../components/postDetail/PostSummary';
-import Rating from '../components/postDetail/Rating';
-import Tag from '../components/common/Tag';
-import SideInfo from '../components/postDetail/SideInfo';
-import CommentInput from '../components/postDetail/postComment/CommentInput';
-import Comment from '../components/postDetail/postComment/Comment';
+import HeartButton from '../../components/postDetail/HeartButton';
+import Participant from '../../components/postDetail/Participant';
+import PostSummary from '../../components/postDetail/PostSummary';
+import Rating from '../../components/postDetail/Rating';
+import Tag from '../../components/common/Tag';
+import SideInfo from '../../components/postDetail/SideInfo';
+import CommentInput from '../../components/postDetail/postComment/CommentInput';
+import Comment from '../../components/postDetail/postComment/Comment';
 
 export const PostDetail = () => {
     return (
@@ -38,6 +38,7 @@ export const PostDetail = () => {
 
 const _PostDetailContainer = styled.div`
     position: relative;
+    margin: 0 20%;
 `;
 
 const _TitleBox = styled.div`
