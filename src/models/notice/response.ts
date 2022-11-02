@@ -43,11 +43,11 @@ export interface GetPostDetailResponse {
     nicknames: string[];
     view_count: number;
     my_star: number;
+    is_mine: boolean;
+    is_like: boolean;
+    is_star: boolean;
+    is_reviewed: boolean;
     profile_image: string;
     create_time: Date;
     list?: CommentData[];
-    like: boolean;
-    star: boolean;
-    mine: boolean;
-    reviewed: boolean;
 }
