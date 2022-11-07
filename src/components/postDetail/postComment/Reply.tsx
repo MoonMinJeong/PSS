@@ -17,7 +17,7 @@ const Reply = ({ text }: Props) => {
 const _ReplyContainer = styled.div`
     background-color: ${({ theme }) => theme.color.gray300};
     border-radius: 12px;
-    width: 780px;
+    width: 100%;
     margin: 12px 0;
     padding: 20px 20px 24px;
     > p {
