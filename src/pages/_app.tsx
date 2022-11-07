@@ -2,9 +2,9 @@ import type { AppProps } from 'next/app';
 import ThemeStyle from '../styles';
 import Header from '../components/Header';
 import 'rc-slider/assets/index.css';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) {
     const queryClient = new QueryClient({
         defaultOptions: {
             queries: {
