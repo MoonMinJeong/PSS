@@ -3,7 +3,7 @@ import Button from './Button';
 import Github from '../../assets/login/github.png';
 import Google from '../../assets/login/google.png';
 import LoginBackGround from '../../assets/login/loginBackground.png';
-import CloseIcon from '../../assets/login/close.png';
+import CloseIcon from '../../assets/common/close.png';
 
 const LoginModal = () => {
     return (
@@ -35,10 +35,13 @@ const LoginModal = () => {
 };
 
 const _ModalBackground = styled.div`
+    z-index: 100;
     background-color: rgba(0, 0, 0, 0.3);
     position: absolute;
+    top: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
