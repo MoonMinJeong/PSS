@@ -49,7 +49,7 @@ export default function Header() {
                         <_WritePost>소개글 작성하기</_WritePost>
                     </Link>
                     <_ProfileWrapper>
-                        <Image src={icon} alt="프로필" width={44} height={44} />
+                        <Image src={icon} alt="프로필" width={36} height={36} />
                         <button onClick={() => setDropdownOpened(!dropdownOpened)}>
                             <ArrowIcon />
                         </button>
@@ -70,7 +70,7 @@ const _Filler = styled.header`
 const _Wrapper = styled.div`
     z-index: 99;
     width: 100%;
-    height: 68px;
+    height: 54px;
     background-color: ${({ theme }) => theme.color.white};
     display: flex;
     align-items: center;
@@ -78,19 +78,19 @@ const _Wrapper = styled.div`
 `;
 const _Content = styled.div`
     display: flex;
-    width: 1320px;
+    width: 1020px;
     margin: 0 auto;
     > p {
         margin-right: auto;
     }
 `;
 const _WritePost = styled.button`
-    width: 182px;
-    height: 44px;
+    width: 160px;
+    height: 36px;
     border-radius: 50px;
     background-color: ${({ theme }) => theme.color.main};
     color: ${({ theme }) => theme.color.white};
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 `;
 const _ProfileWrapper = styled.label`
