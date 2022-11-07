@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
-import { filterIcon } from '../assets';
+import FilterIcon from '../assets/filterIcon';
 import SliderController from './SliderController';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -63,7 +63,7 @@ const Filter = () => {
             ))}
             <_StarFilterWrapper>
                 <button onClick={changeFilterStatus}>
-                    <Image src={filterIcon} alt="별점필터" />
+                    <FilterIcon isClicked={filterOpened} />
                 </button>
                 {filterOpened && (
                     <OutsideClickHandler onOutsideClick={changeFilterStatus}>
@@ -103,8 +103,12 @@ const _StarFilterWrapper = styled.div`
     > div {
         position: absolute;
         right: 0;
-        top: 40px;
+        top: 48px;
         z-index: 99;
+    }
+    > button {
+        :focus {
+        }
     }
     margin-left: auto;
 `;
@@ -114,10 +118,12 @@ const _SearchInput = styled.input`
     margin-left: 20px;
     border: 2px solid ${({ theme }) => theme.color.gray500};
     border-radius: 20px;
-    padding: 16px 24px 18px 20px;
+    padding: 20px 24px 18px 20px;
     font-size: 18px;
     color: ${({ theme }) => theme.color.black};
-
+    :focus {
+        border: 2px solid ${({ theme }) => theme.color.main};
+    }
     ::placeholder {
         color: ${({ theme }) => theme.color.gray700};
     }
