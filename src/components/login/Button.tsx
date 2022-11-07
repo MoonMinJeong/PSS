@@ -27,6 +27,7 @@ const ButtonWrapper = styled.div<{ backgroundColor: string }>`
     justify-content: center;
     align-items: center;
     margin-top: 12px;
+    user-select: none;
     cursor: pointer;
     > img {
         width: 24px;
