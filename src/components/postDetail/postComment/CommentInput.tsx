@@ -1,20 +1,19 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import CommentButtonBox from './CommentButtonBox';
+import TextareaAutosize from 'react-textarea-autosize';
 
 interface Props {
     count?: number;
-    height: string;
     placeholder: string;
     isCancel: boolean;
     onCancel: () => void;
 }
 
-const CommentInput = ({ count, height, placeholder, isCancel, onCancel }: Props) => {
+const CommentInput = ({ count, placeholder, isCancel, onCancel }: Props) => {
     return (
         <_CommentInputContainer>
             {count && <_Label>{count}개의 댓글</_Label>}
-            <_Textarea placeholder={placeholder} height={height} />
+            <TextareaAutosize placeholder={placeholder} />
             <CommentButtonBox isCancel={isCancel} onCancel={onCancel} />
         </_CommentInputContainer>
     );
@@ -23,6 +22,21 @@ const CommentInput = ({ count, height, placeholder, isCancel, onCancel }: Props)
 const _CommentInputContainer = styled.div`
     position: relative;
     width: 100%;
+    > textarea {
+        margin-bottom: 12px;
+        width: 100%;
+        font-size: 16px;
+        border-radius: 12px;
+        resize: none;
+        border: 1px solid ${({ theme }) => theme.color.gray500};
+        padding: 20px;
+        ::placeholder {
+            color: ${({ theme }) => theme.color.gray700};
+        }
+        :focus {
+            border: 1px solid ${({ theme }) => theme.color.main};
+        }
+    }
 `;
 
 const _Label = styled.p`
