@@ -12,7 +12,7 @@ interface Props {
 const CommentInput = ({ count, placeholder, isCancel, onCancel }: Props) => {
     return (
         <_CommentInputContainer>
-            {count && <_Label>{count}개의 댓글</_Label>}
+            {count !== undefined && <_Label>{count}개의 댓글</_Label>}
             <TextareaAutosize placeholder={placeholder} />
             <CommentButtonBox isCancel={isCancel} onCancel={onCancel} />
         </_CommentInputContainer>
