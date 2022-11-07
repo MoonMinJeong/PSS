@@ -10,12 +10,12 @@ interface Props {
 const PostList = ({ postList, marginTop }: Props) => {
     return (
         <_Wrapper marginTop={marginTop}>
+            <GoToTop />
             {Array(10)
                 .fill(void 0)
                 .map((_, index) => (
                     <PostCard key={index} />
                 ))}
-            <GoToTop />
         </_Wrapper>
     );
 };
@@ -25,16 +25,13 @@ const _Wrapper = styled.ul<{ marginTop: number }>`
     position: relative;
     width: 1100px;
     display: flex;
-
     flex-wrap: wrap;
     gap: 48px 36px;
     margin-top: ${({ marginTop }) => marginTop}px;
     > button {
-        top: 650px;
-        right: 70px;
         > svg {
-            width: 36px;
-            height: 36px;
+            width: 48px;
+            height: 48px;
         }
     }
 `;
