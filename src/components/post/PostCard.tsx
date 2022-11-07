@@ -73,6 +73,10 @@ const _PostCard = styled.li`
     width: 342px;
     height: 368px;
     cursor: pointer;
+    transition: margin-top 0.3s ease-in-out;
+    :hover {
+        margin-top: -16px;
+    }
     > img {
         width: 100%;
         height: 240px;
@@ -94,10 +98,14 @@ const _FlexWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-top: 12px;
+    > span {
+        user-select: none;
+    }
     > .author {
         margin-left: 6px;
         color: ${({ theme }) => theme.color.gray900};
         font-size: 14px;
+        user-select: none;
     }
     > .howLong {
         margin-left: 8px;
