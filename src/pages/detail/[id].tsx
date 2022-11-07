@@ -27,7 +27,6 @@ export const PostDetail = () => {
             <CommentInput
                 count={12}
                 placeholder="댓글을 입력해주세요."
-                height={'100px'}
                 isCancel={false}
                 onCancel={() => {}}
             />

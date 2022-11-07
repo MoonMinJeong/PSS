@@ -28,7 +28,6 @@ const ReplyManage = ({ count }: Props) => {
             </_ReplyManageContainer>
             {viewReplyInput && (
                 <CommentInput
-                    height="60px"
                     placeholder="답글을 입력해주세요."
                     isCancel={true}
                     onCancel={() => {
@@ -38,8 +37,8 @@ const ReplyManage = ({ count }: Props) => {
             )}
             {viewReply && (
                 <>
-                    <Reply text="그걸 누가 모르나용??" writerName="문정민" />
-                    <Reply text="아니 어쩌라고요 저도 알아요" writerName="추혜연" />
+                    <Reply text="그걸 누가 모르나용??" />
+                    <Reply text="아니 어쩌라고요 저도 알아요" />
                 </>
             )}
         </>
