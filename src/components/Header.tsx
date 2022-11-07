@@ -65,7 +65,7 @@ export default function Header() {
     );
 }
 const _Filler = styled.header`
-    padding-bottom: 68px;
+    padding-bottom: 54px;
 `;
 const _Wrapper = styled.div`
     z-index: 99;
