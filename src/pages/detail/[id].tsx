@@ -7,11 +7,13 @@ import Tag from '../../components/common/Tag';
 import SideInfo from '../../components/postDetail/SideInfo';
 import CommentInput from '../../components/postDetail/postComment/CommentInput';
 import Comment from '../../components/postDetail/postComment/Comment';
+import { useRouter } from 'next/router';
 
 export const PostDetail = () => {
+    const { id } = useRouter().query;
     return (
         <_PostDetailContainer>
-            <HeartButton count={25} />
+            <HeartButton count={25} noticeId={(!Array.isArray(id) && id && id) || ''} />
             <_TitleBox>
                 <PostSummary title="프소서가 어떤 프로젝트냐면요" writerName="문정민" />
                 <SideInfo rating={3.5} viewCount={1000} />
