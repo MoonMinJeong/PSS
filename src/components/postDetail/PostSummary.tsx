@@ -1,23 +1,35 @@
 import styled from '@emotion/styled';
-import profile from '../../assets/dummy/profile.svg';
+import OutsideClickHandler from 'react-outside-click-handler';
 import meatballMenu from '../../assets/postDetail/meatballmenu.svg';
 import Image from 'next/image';
-import { howLong } from '../../utils/translate';
 import Profile from './Profile';
+import { useState } from 'react';
+import Menulist from './Menulist';
 
 interface Props {
     title: string;
-    writerName: string;
 }
 
-const oneDayAGo = new Date(2022, 9, 17, 16, 54, 0);
-
-const PostSummary = ({ title, writerName }: Props) => {
+const PostSummary = ({ title }: Props) => {
+    const [menulistOpened, setMenulistOpened] = useState(false);
     return (
         <_PostSummaryContainer>
             <_TitleBox>
                 <p>{title}</p>
-                <Image src={meatballMenu} alt="미트볼 메뉴" height={24} width={24} />
+                <div>
+                    <Image
+                        src={meatballMenu}
+                        alt="미트볼 메뉴"
+                        height={24}
+                        width={24}
+                        onClick={() => setMenulistOpened(!menulistOpened)}
+                    />
+                    {menulistOpened && (
+                        <OutsideClickHandler onOutsideClick={() => setMenulistOpened(false)}>
+                            <Menulist />
+                        </OutsideClickHandler>
+                    )}
+                </div>
             </_TitleBox>
             <Profile writerName="강석현" />
         </_PostSummaryContainer>
@@ -36,6 +48,7 @@ const _PostSummaryContainer = styled.div`
 
 const _TitleBox = styled.div`
     display: flex;
+    align-items: center;
     margin-bottom: 8px;
     > p {
         font-size: 32px;
@@ -43,27 +56,9 @@ const _TitleBox = styled.div`
         font-weight: ${({ theme }) => theme.font.bold};
         margin-right: 16px;
     }
-    > span {
+    > div > span {
+        margin-top: 4px;
         cursor: pointer;
-    }
-`;
-
-const _WriterProfile = styled.div`
-    display: flex;
-    > div {
-        display: flex;
-        align-items: center;
-        margin-top: 12px;
-        gap: 8px;
-        cursor: pointer;
-    }
-    > .writer {
-        font-size: 16px;
-        color: ${({ theme }) => theme.color.gray900};
-    }
-    > .howLong {
-        font-size: 16px;
-        color: ${({ theme }) => theme.color.gray700};
     }
 `;
 
