@@ -3,19 +3,15 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import meatballMenu from '../../assets/postDetail/meatballmenu.svg';
 import Image from 'next/image';
 import Profile from './Profile';
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import Menulist from './Menulist';
 
-interface Props {
-    title: string;
-}
-
-const PostSummary = ({ title }: Props) => {
+const PostSummary = ({ children }: PropsWithChildren) => {
     const [menulistOpened, setMenulistOpened] = useState(false);
     return (
         <_PostSummaryContainer>
             <_TitleBox>
-                <p>{title}</p>
+                <p>{children}</p>
                 <div>
                     <Image
                         src={meatballMenu}

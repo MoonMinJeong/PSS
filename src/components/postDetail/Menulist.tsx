@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 const Menulist = () => {
     return (
         <_Container>
-            <p className="modify">소개글 수정</p>
-            <p className="delete">소개글 삭제</p>
+            <button className="modify">소개글 수정</button>
+            <button className="delete">소개글 삭제</button>
         </_Container>
     );
 };
@@ -16,8 +16,10 @@ const _Container = styled.div`
     padding: 12px;
     border-radius: 8px;
     box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
     background-color: ${({ theme }) => theme.color.white};
-    p {
+    button {
         cursor: pointer;
         font-size: 14px;
         user-select: none;
