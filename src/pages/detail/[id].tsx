@@ -13,9 +13,9 @@ export const PostDetail = () => {
     const { id } = useRouter().query;
     return (
         <_PostDetailContainer>
-            <HeartButton count={25} noticeId={(!Array.isArray(id) && id && id) || ''} />
+            <HeartButton count={25} noticeId={id as string} />
             <_TitleBox>
-                <PostSummary title="프소서가 어떤 프로젝트냐면요" writerName="문정민" />
+                <PostSummary title="프소서가 어떤 프로젝트냐면요" />
                 <SideInfo rating={3.5} viewCount={1000} />
             </_TitleBox>
             {/*TODO. BigTag 컴포넌트 만들어서 수정*/}
