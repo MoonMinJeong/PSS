@@ -19,6 +19,7 @@ const useAddMD = () => {
         let MarkStr = '';
         let ViewStr = '';
         let currentNode = null;
+        let curLen = pos.pos;
         const Tag = tag ? tag : 'p';
 
         if (parent.textContent) {
@@ -33,18 +34,13 @@ const useAddMD = () => {
                 }
                 const TextStr = currentNode ? currentNode.innerText : '';
                 const TextLen = TextStr ? TextStr.length : 0;
-                const Offset = pos.pos - TextLen;
-                const localName = currentNode.localName;
+                const Offset = curLen - TextLen;
 
                 const Adding = TextLen
-                    ? `<${localName}>${[
-                          TextStr.substring(0, pos.pos),
-                          str,
-                          TextStr.substring(pos.pos),
-                      ].join('')}</${localName}>`
-                    : `<${localName}>${str}</${localName}>`;
+                    ? [TextStr.substring(0, pos.pos), str, TextStr.substring(pos.pos)].join('')
+                    : str;
 
-                const Setting = `<${Tag}>${str} ${TextStr}</${Tag}>`;
+                const Setting = `${str} ${TextStr}`;
 
                 const NodeText = Add ? Adding : Setting;
                 if (Offset <= 0 && !pos.done) {
@@ -54,13 +50,13 @@ const useAddMD = () => {
                 } else {
                     MarkStr += DisableMark(TextStr ? TextStr : '');
                     ViewStr += Mark(TextStr ? TextStr : '');
-                    pos.pos -= TextLen;
                 }
+                curLen -= TextLen;
             }
         } else {
-            const NodeText = Add ? `<p>${str}</p>` : `<${Tag}>${str} f</${Tag}>`;
-            MarkStr += Mark(NodeText);
-            ViewStr += DisableMark(NodeText);
+            const NodeText = Add ? str : `${str} f`;
+            MarkStr += DisableMark(NodeText);
+            ViewStr += Mark(NodeText);
         }
         return [MarkStr, ViewStr] as const;
     };
