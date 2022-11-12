@@ -67,7 +67,7 @@ function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
                         취소
                     </_OptionButton>
                 </_SummitTemple>
-            </_Wrapper> 
+            </_Wrapper>
         )
     );
 }

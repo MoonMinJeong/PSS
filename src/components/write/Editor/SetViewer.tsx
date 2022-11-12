@@ -1,21 +1,17 @@
 import styled from '@emotion/styled';
-import { marked } from 'marked';
 import { useMemo } from 'react';
 import { ViewerType } from '.';
 
 function MDViewer({ content }: ViewerType) {
-    const MDP = () => {
-        const md = marked.parse(content);
-        return { __html: md };
-    };
-
-    const MDText = useMemo(MDP, [content]);
+    const MDText = useMemo(() => ({ __html: content }), [content]);
     return <_LivePreView dangerouslySetInnerHTML={MDText}></_LivePreView>;
 }
 
 const _LivePreView = styled.pre`
     margin-top: 20px;
     font-size: 18px;
+    width: 100%;
+    white-space: pre-wrap;
     em {
         font-style: italic;
     }
@@ -32,6 +28,9 @@ const _LivePreView = styled.pre`
     }
     a {
         color: ${({ theme }) => theme.color.main};
+    }
+    hr {
+        border-bottom: 1px solid ${({ theme }) => theme.color.gray500};
     }
 `;
 

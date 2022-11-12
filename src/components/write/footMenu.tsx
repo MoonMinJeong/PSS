@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import Link from 'next/link';
 import { backPage } from '../../assets';
 
 interface PropsType {
@@ -11,12 +12,16 @@ function FootMenu({ setModal }: PropsType) {
 
     return (
         <_Wrapper>
-            <_BackPageButton>
-                <Image src={backPage} />
-                나가기
-            </_BackPageButton>
+            <Link href="/">
+                <_BackPageButton>
+                    <Image src={backPage} />
+                    나가기
+                </_BackPageButton>
+            </Link>
+
             <_SaveSummitBox>
-                임시저장
+                <_SaveButton>임시저장</_SaveButton>
+
                 <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
             </_SaveSummitBox>
         </_Wrapper>
@@ -46,8 +51,13 @@ const _BackPageButton = styled.button`
 `;
 
 const _SaveSummitBox = styled.div`
-    font-size: 16px;
     font-weight: ${({ theme }) => theme.font.regular};
+`;
+
+const _SaveButton = styled.button`
     color: ${({ theme }) => theme.color.gray500};
+    font-size: 16px;
+    border: 0;
+    outline: 0;
 `;
 export default FootMenu;

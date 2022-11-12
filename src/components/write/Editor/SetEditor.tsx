@@ -1,79 +1,69 @@
-import { KeyboardEvent, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { EditorType } from '.';
 import styled from '@emotion/styled';
-import {
-    Bold_Button,
-    Code_Button,
-    H_Button,
-    Image_Button,
-    Link_Button,
-    Quote_Button,
-    Tip_Button,
-    UnderScore_Button,
-} from '../../../assets';
-import EditButton from './EditButton';
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+import useEditFunction from '../../../hooks/useEditFunction';
+import ButtonList from './ButtonList';
+import useCreateElement from '../../../hooks/useCreateElement';
+import useAddMD from '../../../hooks/useAddMD';
+
+export interface FocusNodeType {
+    focusN: Node | null;
+    off: number;
+}
 
 function MDEditor({ Introduct, setIntroduct }: EditorType) {
     const Ref = useRef<HTMLDivElement | null>(null);
+    const [change, setchange] = useState<string>('');
 
-    const Change = (e: KeyboardEvent<HTMLDivElement> | undefined) => {
-        setTimeout(
-            () => Ref.current && setIntroduct({ ...Introduct, content: Ref.current.innerText }),
-            0,
-        );
+    const { setEdit, setView } = useEditFunction();
+    const createElement = useCreateElement();
+    const [ClickButtonAdd, ClickButtonSet] = useAddMD();
+
+    const SetViewer = (view: string) => setIntroduct({ ...Introduct, content: view });
+    const SetEditor = (edit: string) => {
+        setchange(edit);
     };
+
+    const onChangeHTMLValue = (e: ContentEditableEvent) => {
+        const { value } = e.target;
+        let parent = createElement(value, 'div');
+        const ismark = setEdit(parent, Ref.current, SetEditor);
+        !ismark && setchange(value);
+        setView(parent, SetViewer);
+    };
+
+    const ClickInsertMark = (str: string, strLen: number) => {
+        ClickButtonAdd(Ref.current, str, SetEditor, SetViewer, strLen);
+    };
+    const ClickSetMark = (str: string, tag?: string) =>
+        ClickButtonSet(Ref.current, SetEditor, SetViewer, str, tag);
 
     return (
         <div>
-            <_EditToolBar>
-                <EditButton src={H_Button} width={14} text="1" />
-                <EditButton src={H_Button} width={14} text="2" />
-                <EditButton src={H_Button} width={14} text="3" />
-                <EditButton src={H_Button} width={14} text="4" />
-                <_EditButtonLine />
-                <EditButton src={Bold_Button} width={14} />
-                <EditButton src={Tip_Button} width={16} />
-                <EditButton src={UnderScore_Button} width={16} height={22} />
-                <_EditButtonLine />
-                <EditButton src={Code_Button} width={24} />
-                <EditButton src={Quote_Button} width={24} />
-                <_EditButtonLine />
-                <EditButton src={Image_Button} width={22} />
-                <EditButton src={Link_Button} width={24} />
-            </_EditToolBar>
-            <_EditableDiv
-                contentEditable="true"
-                onKeyDown={Change}
-                ref={Ref}
-                placeholder="내용을 입력해 주세요"></_EditableDiv>
+            <ButtonList onClickAdding={ClickInsertMark} onClickSetting={ClickSetMark} />
+            <_EditableDiv className="HelloEditor">
+                <ContentEditable
+                    html={change}
+                    contentEditable="true"
+                    onChange={onChangeHTMLValue}
+                    innerRef={Ref}
+                    placeholder="내용을 입력해 주세요"
+                    className="HelloEditor"
+                />
+            </_EditableDiv>
         </div>
     );
 }
 
 const _EditableDiv = styled.div`
-    width: 400px;
-    height: 100px;
-    padding-top: 20px;
-    font-size: 18px;
-    :empty:before {
-        content: attr(placeholder);
-        color: ${({ theme }) => theme.color.gray700};
+    &.HelloEditor {
+        padding: 20px 10px 0 10px;
+        font-size: 18px;
+        [placeholder]:empty::before {
+            content: attr(placeholder);
+            color: #555;
+        }
     }
 `;
-
-const _EditToolBar = styled.div`
-    display: flex;
-    align-items: center;
-    background-color: ${({ theme }) => theme.color.gray300};
-    border-radius: 5px;
-`;
-
-const _EditButtonLine = styled.span`
-    background-color: ${({ theme }) => theme.color.gray500};
-    border-radius: 50px;
-    width: 0.75px;
-    height: 25px;
-    margin: 0 10px;
-`;
-
 export default MDEditor;

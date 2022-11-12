@@ -16,7 +16,7 @@ export interface IntroductType {
 }
 
 function WritePost() {
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState<boolean>(false);
 
     const [Introduct, setIntroduct] = useState<IntroductType>({
         title: '',
