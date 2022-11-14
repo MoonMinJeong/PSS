@@ -1,5 +1,15 @@
 export { default as starIcon } from './star.svg';
 export { default as viewIcon } from './view.svg';
+export { default as backPage } from './backpage.svg';
+export { default as Camera } from './camera.svg';
+export { default as H_Button } from './h1234.svg';
+export { default as UnderScore_Button } from './underscore.svg';
+export { default as Tip_Button } from './tip.svg';
+export { default as Bold_Button } from './bold.svg';
+export { default as Code_Button } from './code.svg';
+export { default as Image_Button } from './image.svg';
+export { default as Link_Button } from './link.svg';
+export { default as Quote_Button } from './quote.svg';
 export { default as heartIcon } from './heart.svg';
 export { default as ArrowIcon } from './arrow';
 export { default as githubIcon } from './github.svg';
