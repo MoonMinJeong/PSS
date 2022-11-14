@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import { IntroductType } from '../../pages/write';
-import { Viewer } from './Editor';
+import { PostRequest } from '../../models/createPost/request';
 import MDViewer from './Editor/SetViewer';
 
 interface PropsType {
     modal: boolean;
     setModal: (modal: boolean) => void;
-    Introduct: IntroductType;
+    Introduct: PostRequest;
 }
 
 function PreView({ modal, setModal, Introduct }: PropsType) {

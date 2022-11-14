@@ -5,26 +5,18 @@ import InputSession from '../components/write/PutInfoWrite';
 import PreView from '../components/write/Preview';
 import ModalWrite from '../components/write/ModalWrite';
 import { Editor } from '../components/write/Editor';
-
-export interface IntroductType {
-    title: string;
-    skill: string[];
-    attend: string[];
-    content: string;
-    shortIntro: string;
-    mainImg: File | null | string;
-}
+import { PostRequest } from '../models/createPost/request';
 
 function WritePost() {
     const [modal, setModal] = useState<boolean>(false);
 
-    const [Introduct, setIntroduct] = useState<IntroductType>({
+    const [Introduct, setIntroduct] = useState<PostRequest>({
         title: '',
-        skill: [],
-        attend: [],
+        stacks: [],
+        nicknames: [],
         content: '',
         shortIntro: '',
-        mainImg: null,
+        image_url: '',
     });
 
     return (

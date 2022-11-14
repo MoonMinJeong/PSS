@@ -1,3 +1,3 @@
 export interface ImageResponse {
-    image: string[];
+    images: string[];
 }
