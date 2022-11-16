@@ -17,13 +17,13 @@ export const deletePost = async (notice_id: string) => {
 export type SortType = 'like' | 'time';
 
 export const getPostList = async (sort: SortType, star: number, title: string) => {
-    return await instance.get<GetPostListResponse>(
-        `/notice?sort=${sort}&star=${star}&title=${title}`,
-    );
+    return (
+        await instance.get<GetPostListResponse>(`/notice?sort=${sort}&star=${star}&title=${title}`)
+    ).data;
 };
 
 export const getPostDetail = async (notice_id: string) => {
-    return await instance.get<GetPostDetailResponse>(`/notice?notice-id=${notice_id}`);
+    return (await instance.get<GetPostDetailResponse>(`/notice?notice-id=${notice_id}`)).data;
 };
 
 export const savePost = async (body: SavePostRequest) => {
