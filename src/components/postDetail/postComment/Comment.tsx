@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
+import { CommentData } from '../../../models/notice/response';
 import Profile from '../Profile';
 import ReplyManage from './ReplyManage';
 
-interface Props {
-    content: string;
+{
+    /*TODO. 자신 댓글 삭제 기능 추가*/
 }
-
-const Comment = ({ content }: Props) => {
+const Comment = ({ content, nickname, image_url, created_at, reply_dto_list }: CommentData) => {
     return (
         <_CommentContainer>
-            <Profile writerName="문정민" />
+            <Profile writerName={nickname} profile={image_url} createTime={new Date(created_at)} />
             <p>{content}</p>
-            <ReplyManage count={2} />
+            <ReplyManage replyData={reply_dto_list} />
         </_CommentContainer>
     );
 };
