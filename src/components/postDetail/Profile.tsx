@@ -1,19 +1,18 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import profile from '../../assets/dummy/profile.svg';
 import { howLong } from '../../utils/translate';
 
 interface Props {
     writerName: string;
+    profile: string;
+    createTime: Date;
 }
 
-const oneDayAGo = new Date(2022, 9, 20, 16, 54, 0); //month에 +1
-
-const Profile = ({ writerName }: Props) => {
+const Profile = ({ writerName, profile, createTime }: Props) => {
+    const oneDayAGo = new Date(createTime);
     return (
         <_ProfileBox>
-            {/* TODO. Profile Link 추가 */}
-            <Image src={profile} alt="작성자 프로필" width={28} height={28} />
+            <CustomImage src={profile} width={28} height={28} />
             <p className="writer">{writerName}</p>
             <p className="howLong">{howLong(oneDayAGo)}</p>
         </_ProfileBox>
@@ -34,6 +33,12 @@ const _ProfileBox = styled.div`
         font-size: 14px;
         color: ${({ theme }) => theme.color.gray700};
     }
+`;
+
+const CustomImage = styled(Image)`
+    background-color: ${({ theme }) => theme.color.gray300};
+    border-radius: 50%;
+    font-size: 8px;
 `;
 
 export default Profile;

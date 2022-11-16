@@ -1,15 +1,21 @@
 import styled from '@emotion/styled';
 import HeartIcon from '../../assets/postDetail/HeartIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cancelLike, like } from '../../apis/like';
+import usePostDetail from '../../hooks/usePostDetail';
 
 interface Props {
-    count: number;
     noticeId: string;
 }
 
-const HeartButton = ({ count, noticeId }: Props) => {
+const HeartButton = ({ noticeId }: Props) => {
+    const { data: postDetail } = usePostDetail(noticeId);
     const [isClicked, setIsClicked] = useState(false);
+
+    useEffect(() => {
+        setIsClicked(!!postDetail?.is_like);
+    }, [postDetail]);
+
     const onClickHeart = () => {
         isClicked ? like(noticeId) : cancelLike(noticeId);
     };
@@ -23,7 +29,7 @@ const HeartButton = ({ count, noticeId }: Props) => {
                     }}>
                     <HeartIcon isClicked={isClicked} />
                 </_HeartButton>
-                <p>{isClicked ? ++count : count}</p>
+                <p>{postDetail?.likes}</p>
             </_HeartButtonContainer>
         </_HeartButtonContainerWrapper>
     );
