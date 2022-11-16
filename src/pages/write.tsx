@@ -5,7 +5,7 @@ import InputSession from '../components/write/PutInfoWrite';
 import PreView from '../components/write/Preview';
 import ModalWrite from '../components/write/ModalWrite';
 import { Editor } from '../components/write/Editor';
-import { PostRequest } from '../models/createPost/request';
+import { PostRequest } from '../models/notice/request';
 
 function WritePost() {
     const [modal, setModal] = useState<boolean>(false);
@@ -15,7 +15,6 @@ function WritePost() {
         stacks: [],
         nicknames: [],
         content: '',
-        shortIntro: '',
         image_url: '',
     });
 

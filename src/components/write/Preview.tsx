@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { PostRequest } from '../../models/createPost/request';
+import { PostRequest } from '../../models/notice/request';
 import MDViewer from './Editor/SetViewer';
 
 interface PropsType {
@@ -29,6 +29,11 @@ const _Wrapper = styled.div`
 
 const _ContentWrapper = styled.div`
     padding: 50px 50px;
+    height: 825px;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 const _TapBackground = styled.div<{ modal: boolean }>`

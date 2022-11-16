@@ -1,12 +1,13 @@
 import dynamic from 'next/dynamic';
-import { PostRequest } from '../../../models/createPost/request';
+import { Dispatch, SetStateAction } from 'react';
+import { PostRequest } from '../../../models/notice/request';
 
 const NoSsrEditor = dynamic(() => import('./SetEditor'), { ssr: false });
 const NoSsrViewer = dynamic(() => import('./SetViewer'), { ssr: false });
 
 export interface EditorType {
     Introduct: PostRequest;
-    setIntroduct: (Introduct: PostRequest) => void;
+    setIntroduct: Dispatch<SetStateAction<PostRequest>>;
 }
 
 export interface ViewerType {

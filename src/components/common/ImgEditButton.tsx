@@ -6,19 +6,19 @@ interface OptionType {
     width?: number;
     height?: number;
     text?: string;
-    onClick: () => void;
+    htmlFor: string;
 }
 
-function EditButton({ src, width, height, text, onClick }: OptionType) {
+function ImgEditButton({ src, width, height, text, htmlFor }: OptionType) {
     return (
-        <_EditButton onClick={onClick}>
+        <_ImgEditButton htmlFor={htmlFor}>
             <Image src={src} width={width} height={height} />
             {text}
-        </_EditButton>
+        </_ImgEditButton>
     );
 }
 
-const _EditButton = styled.button`
+const _ImgEditButton = styled.label`
     border: 0;
     outline: 0;
     display: flex;
@@ -35,4 +35,4 @@ const _EditButton = styled.button`
     }
 `;
 
-export default EditButton;
+export default ImgEditButton;

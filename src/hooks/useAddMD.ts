@@ -1,5 +1,4 @@
-import { marked } from 'marked';
-import { Dispatch, SetStateAction } from 'react';
+import { uploadImage } from '../apis/image';
 import useCreateElement from './useCreateElement';
 import useCursorGetSet from './useCursorGetSet';
 import useDisableMark from './useDisableMark';
@@ -14,13 +13,11 @@ const useAddMD = () => {
         pos: { pos: number; done: boolean },
         str: string,
         Add: boolean,
-        tag?: string | undefined,
     ) => {
         let MarkStr = '';
         let ViewStr = '';
         let currentNode = null;
         let curLen = pos.pos;
-        const Tag = tag ? tag : 'p';
 
         if (parent.textContent) {
             for (let i = 0; i < parent.childNodes.length; i++) {
@@ -92,6 +89,8 @@ const useAddMD = () => {
             range.collapse(true);
             sel?.addRange(range);
         }, 1);
+
+        return MarkStr;
     };
 
     const ClickButtonSet = (
@@ -99,7 +98,6 @@ const useAddMD = () => {
         HtmlChange: (edit: string) => void,
         ViewChange: (view: string) => void,
         str: string,
-        tag: string | undefined,
     ) => {
         const sel = window.getSelection();
         const node = sel?.focusNode;
@@ -110,14 +108,35 @@ const useAddMD = () => {
 
         pos = { pos: pos.pos, done: false };
 
-        const [MarkStr, ViewStr] = addMarkDown(parent, pos, str, false, tag);
+        const [MarkStr, ViewStr] = addMarkDown(parent, pos, str, false);
         pos = { pos: pos.pos + str.length, done: false };
         HtmlChange(MarkStr);
         ViewChange(ViewStr);
         parent.focus();
     };
 
-    return [ClickButtonAdd, ClickButtonSet] as const;
+    const ClickImgAdd = (
+        parent: HTMLElement | null,
+        HtmlChange: (edit: string) => void,
+        ViewChange: (view: string) => void,
+        url: string,
+        ImageForm: FormData,
+    ) => {
+        
+        url = `![업로드중!!](${url})`;
+        const REX = new RegExp(/\!\[(업로드중!!)\]\(([^\)]+)\)/i);
+        const Len = url.length;
+        const MarkStr = ClickButtonAdd(parent, url, HtmlChange, ViewChange, Len);
+
+        uploadImage(ImageForm).then((data) => {
+            const img = data.data.images[0];
+            const ImageHTML = MarkStr.replace(REX, `![](${img})`);
+
+            HtmlChange(ImageHTML);
+        });
+    };
+
+    return [ClickButtonAdd, ClickButtonSet, ClickImgAdd] as const;
 };
 
 export default useAddMD;
