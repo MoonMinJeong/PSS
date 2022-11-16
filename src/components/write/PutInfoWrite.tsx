@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, useState } from 'react';
-import { IntroductType } from '../../pages/write';
+import { PostRequest } from '../../models/notice/request';
 import TagInput from './TagInput';
 import TitleInput from './TitleInput';
 
 interface PropsType {
-    Introduct: IntroductType;
-    setIntroduct: (Introduct: IntroductType) => void;
+    Introduct: PostRequest;
+    setIntroduct: (Introduct: PostRequest) => void;
 }
 
 function Introduce({ Introduct, setIntroduct }: PropsType) {
@@ -19,14 +18,14 @@ function Introduce({ Introduct, setIntroduct }: PropsType) {
             />
             <_TitleLine />
             <TagInput
-                name="skill"
+                name="stacks"
                 placeholder="사용한 기술을 입력해 주세요."
                 setIntroduct={setIntroduct}
                 Introduct={Introduct}
             />
             <_TagLine />
             <TagInput
-                name="attend"
+                name="nicknames"
                 placeholder="프로젝트에 참가한 인원을 작성해 주세요."
                 setIntroduct={setIntroduct}
                 Introduct={Introduct}
