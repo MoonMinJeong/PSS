@@ -4,12 +4,7 @@ import { ViewerType } from '.';
 
 function MDViewer({ content }: ViewerType) {
     const MDText = useMemo(() => ({ __html: content }), [content]);
-    return (
-        <>
-            <div>{MDText.__html}</div>
-            <_LivePreView dangerouslySetInnerHTML={MDText} />
-        </>
-    );
+    return <_LivePreView dangerouslySetInnerHTML={MDText} />;
 }
 
 const _LivePreView = styled.pre`
