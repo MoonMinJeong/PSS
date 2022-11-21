@@ -5,41 +5,49 @@ import Google from '../../assets/login/google.png';
 import LoginBackGround from '../../assets/login/loginBackground.png';
 import CloseIcon from '../../assets/common/close.png';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import OutsideClickHandler from 'react-outside-click-handler';
+import { Dispatch, SetStateAction } from 'react';
 
-const LoginModal = () => {
-    //TODO. 헤더에서 Props 받아와서 열고 닫기 추가
+interface Props {
+    setOpenModal: Dispatch<SetStateAction<boolean>>;
+}
+
+const LoginModal = ({ setOpenModal }: Props) => {
     const router = useRouter();
-    const outside = useRef<HTMLInputElement>(null);
+    const closeModal = () => {
+        setOpenModal(false);
+    };
     return (
         <>
-            <_ModalBackground ref={outside}>
-                <_ModalContainer>
-                    <_ImageWrapper />
-                    <_ContentContainer>
-                        <h1>LOGIN</h1>
-                        <p>로그인 후 프소서의 서비스를 이용해보세요!</p>
-                        <Button
-                            text="Github로 로그인"
-                            img={Github.src}
-                            backgroundColor={'#000000'}
-                            color={'#FFFFFF'}
-                            onClick={() => {
-                                router.push(
-                                    'https://github.com/login/oauth/authorize?client_id=317785ec9050f7304058&scope=user:email read:user',
-                                );
-                            }}
-                        />
-                        <Button
-                            text="Google로 로그인"
-                            img={Google.src}
-                            backgroundColor={'#FFFFFF'}
-                            color={'#8D8D8D'}
-                            onClick={() => {}}
-                        />
-                        <img src={CloseIcon.src} onClick={() => {}} />
-                    </_ContentContainer>
-                </_ModalContainer>
+            <_ModalBackground>
+                <OutsideClickHandler onOutsideClick={closeModal}>
+                    <_ModalContainer>
+                        <_ImageWrapper />
+                        <_ContentContainer>
+                            <h1>LOGIN</h1>
+                            <p>로그인 후 프소서의 서비스를 이용해보세요!</p>
+                            <Button
+                                text="Github로 로그인"
+                                img={Github.src}
+                                backgroundColor={'#000000'}
+                                color={'#FFFFFF'}
+                                onClick={() => {
+                                    router.push(
+                                        'https://github.com/login/oauth/authorize?client_id=317785ec9050f7304058&scope=user:email read:user',
+                                    );
+                                }}
+                            />
+                            <Button
+                                text="Google로 로그인"
+                                img={Google.src}
+                                backgroundColor={'#FFFFFF'}
+                                color={'#8D8D8D'}
+                                onClick={() => {}}
+                            />
+                            <img src={CloseIcon.src} onClick={closeModal} />
+                        </_ContentContainer>
+                    </_ModalContainer>
+                </OutsideClickHandler>
             </_ModalBackground>
         </>
     );
