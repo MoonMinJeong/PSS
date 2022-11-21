@@ -2,25 +2,35 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { starIcon, viewIcon } from '../../assets';
 import arrow from '../../assets/postDetail/arrow.svg';
+import usePostDetail from '../../hooks/usePostDetail';
 
 interface Props {
-    rating: number;
-    viewCount: number;
+    noticeId: string;
 }
 
-const SideInfo = ({ rating, viewCount }: Props) => {
+const SideInfo = ({ noticeId }: Props) => {
+    const { data: postDetail } = usePostDetail(noticeId);
     return (
         <_SideinfoConatainer>
             <_SideinfoBox>
                 <Image src={starIcon} alt="별점" width={16} />
-                <p className="rating">{rating}</p>
+                <p className="rating">{postDetail?.stars}</p>
                 <Image src={viewIcon} alt="조회수" width={16} />
-                <p>{viewCount}</p>
+                <p>{postDetail?.view_count}</p>
             </_SideinfoBox>
-            <_Memoir>
-                <p>회고록 보러가기</p>
-                <Image src={arrow} alt="화살표" width={14} height={16} />
-            </_Memoir>
+            {postDetail?.is_reviewed ? (
+                <_Memoir>
+                    <p>회고록 보러가기</p>
+                    <Image src={arrow} alt="화살표" width={14} height={16} />
+                </_Memoir>
+            ) : (
+                postDetail?.is_mine && (
+                    <_Memoir>
+                        <p>회고록 쓰러가기</p>
+                        <Image src={arrow} alt="화살표" width={14} height={16} />
+                    </_Memoir>
+                )
+            )}
         </_SideinfoConatainer>
     );
 };

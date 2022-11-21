@@ -7,34 +7,54 @@ import Tag from '../../components/common/Tag';
 import SideInfo from '../../components/postDetail/SideInfo';
 import CommentInput from '../../components/postDetail/postComment/CommentInput';
 import Comment from '../../components/postDetail/postComment/Comment';
-import { useRouter } from 'next/router';
+import usePostDetail from '../../hooks/usePostDetail';
+import { GetServerSideProps, NextPage } from 'next';
 
-export const PostDetail = () => {
-    const { id } = useRouter().query;
+interface PostDetailProps {
+    id: string;
+}
+
+export const PostDetail: NextPage<PostDetailProps> = ({ id }) => {
+    const { data: postDetail } = usePostDetail(id);
+
     return (
         <_PostDetailContainer>
-            <HeartButton count={25} noticeId={id as string} />
+            <HeartButton noticeId={id} />
             <_TitleBox>
-                <PostSummary>프소서가 어떤 프로젝트냐면요</PostSummary>
-                <SideInfo rating={3.5} viewCount={1000} />
+                <PostSummary noticeId={id} />
+                <SideInfo noticeId={id} />
             </_TitleBox>
-            {/*TODO. BigTag 컴포넌트 만들어서 수정*/}
             <_TagBox>
-                <Tag text="JAVA" />
-                <Tag text="React" />
+                {postDetail?.stacks.map((content, idx) => (
+                    <Tag text={content} key={idx} />
+                ))}
             </_TagBox>
-            <Participant />
+            {!!postDetail?.nicknames.length && <Participant noticeId={id} />}
             {/*TODO. Content 추가*/}
-            <Rating />
+            <Rating noticeId={id} />
             <CommentInput
-                count={12}
+                type="comment"
                 placeholder="댓글을 입력해주세요."
                 isCancel={false}
                 onCancel={() => {}}
+                noticeId={id}
             />
-            <Comment content="이게 뭐냐면 바로 댓글이에요. 댓글이라고요 ㅋ" />
+            {postDetail?.list?.map((item, idx) => (
+                <Comment {...item} key={idx} />
+            ))}
         </_PostDetailContainer>
     );
+};
+
+export const getServerSideProps: GetServerSideProps<{ id: string | string[] | undefined }> = async (
+    ctx,
+) => {
+    const { params } = ctx;
+    return {
+        props: {
+            id: params?.id,
+        },
+    };
 };
 
 const _PostDetailContainer = styled.div`

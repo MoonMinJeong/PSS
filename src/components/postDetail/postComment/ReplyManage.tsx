@@ -4,15 +4,17 @@ import downArrow from '../../../assets/postDetail/downArrow.png';
 import { useState } from 'react';
 import Reply from './Reply';
 import CommentInput from './CommentInput';
+import { useRouter } from 'next/router';
+import { ReplyData } from '../../../models/notice/response';
 
-interface Props {
-    count: number;
+interface ReplyManageProps {
+    replyData: ReplyData[] | undefined;
 }
 
-const ReplyManage = ({ count }: Props) => {
+const ReplyManage = ({ replyData }: ReplyManageProps) => {
     const [viewReply, setViewReply] = useState(false);
     const [viewReplyInput, setViewReplyInput] = useState(false);
-
+    const id = useRouter().query.id as string;
     return (
         <>
             <_ReplyManageContainer>
@@ -21,13 +23,15 @@ const ReplyManage = ({ count }: Props) => {
                         setViewReply(!viewReply);
                     }}>
                     <img src={viewReply ? topArrow.src : downArrow.src} alt="화살표" />
-                    {viewReply ? <p>숨기기</p> : <p>답글 {count}개</p>}
+                    {viewReply ? <p>숨기기</p> : <p>답글 {replyData?.length}개</p>}
                 </_ViewReply>
                 <i>{'•'}</i>
                 <p onClick={() => setViewReplyInput(!viewReplyInput)}>답글 작성</p>
             </_ReplyManageContainer>
             {viewReplyInput && (
                 <CommentInput
+                    type="reply"
+                    noticeId={id}
                     placeholder="답글을 입력해주세요."
                     isCancel={true}
                     onCancel={() => {
@@ -35,12 +39,7 @@ const ReplyManage = ({ count }: Props) => {
                     }}
                 />
             )}
-            {viewReply && (
-                <>
-                    <Reply text="그걸 누가 모르나용??" />
-                    <Reply text="아니 어쩌라고요 저도 알아요" />
-                </>
-            )}
+            {viewReply && replyData?.map((item, idx) => <Reply {...item} key={idx} />)}
         </>
     );
 };

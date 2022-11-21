@@ -17,25 +17,28 @@ export interface GetPostListResponse {
     notice_list: NoticeCardData[];
 }
 
-interface ReplyData {
+export interface ReplyData {
     id: string;
     nickname: string;
     content: string;
     image_url: string;
     is_mine: boolean;
+    created_at: string;
 }
 
-interface CommentData {
+export interface CommentData {
     id: string;
     nickname: string;
     content: string;
     image_url: string;
     is_mine: boolean;
+    created_at: string;
     reply_dto_list?: ReplyData[];
 }
 
 export interface GetPostDetailResponse {
     notice_id: string;
+    name: string;
     title: string;
     content: string;
     likes: number;

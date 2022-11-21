@@ -3,31 +3,43 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import meatballMenu from '../../assets/postDetail/meatballmenu.svg';
 import Image from 'next/image';
 import Profile from './Profile';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import Menulist from './Menulist';
+import usePostDetail from '../../hooks/usePostDetail';
 
-const PostSummary = ({ children }: PropsWithChildren) => {
+interface Props {
+    noticeId: string;
+}
+
+const PostSummary = ({ noticeId }: Props) => {
+    const { data: postDetail } = usePostDetail(noticeId);
     const [menulistOpened, setMenulistOpened] = useState(false);
     return (
         <_PostSummaryContainer>
             <_TitleBox>
-                <p>{children}</p>
-                <div>
-                    <Image
-                        src={meatballMenu}
-                        alt="미트볼 메뉴"
-                        height={24}
-                        width={24}
-                        onClick={() => setMenulistOpened(!menulistOpened)}
-                    />
-                    {menulistOpened && (
-                        <OutsideClickHandler onOutsideClick={() => setMenulistOpened(false)}>
-                            <Menulist />
-                        </OutsideClickHandler>
-                    )}
-                </div>
+                <p>{postDetail?.title}</p>
+                {postDetail?.is_mine && (
+                    <div>
+                        <Image
+                            src={meatballMenu}
+                            alt="미트볼 메뉴"
+                            height={24}
+                            width={24}
+                            onClick={() => setMenulistOpened(!menulistOpened)}
+                        />
+                        {menulistOpened && (
+                            <OutsideClickHandler onOutsideClick={() => setMenulistOpened(false)}>
+                                <Menulist />
+                            </OutsideClickHandler>
+                        )}
+                    </div>
+                )}
             </_TitleBox>
-            <Profile writerName="강석현" />
+            <Profile
+                writerName={postDetail?.name!}
+                profile={postDetail?.profile_image!}
+                createTime={postDetail?.create_time!}
+            />
         </_PostSummaryContainer>
     );
 };

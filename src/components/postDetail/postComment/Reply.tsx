@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
+import { ReplyData } from '../../../models/notice/response';
 import Profile from '../Profile';
 
-interface Props {
-    text: string;
+{
+    /*TODO. 자신 답글 삭제 기능 추가*/
 }
-
-const Reply = ({ text }: Props) => {
+const Reply = ({ nickname, content, image_url, created_at }: ReplyData) => {
     return (
         <_ReplyContainer>
-            <Profile writerName="김태완" />
-            <p>{text}</p>
+            <Profile writerName={nickname} createTime={new Date(created_at)} profile={image_url} />
+            <p>{content}</p>
         </_ReplyContainer>
     );
 };
