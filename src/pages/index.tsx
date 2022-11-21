@@ -10,8 +10,8 @@ import { getPostList } from '../apis/notice';
 import usePostFilter from '../hooks/usePostFilter';
 
 const MainPage = () => {
-  const id = useRouter().query;
-  const {
+    const id = useRouter().query;
+    const {
         filter,
         changeFilterStatus,
         onChangeKeyword,
@@ -47,7 +47,7 @@ const MainPage = () => {
                 filterOpened={filterOpened}
                 setFilter={setFilter}
             />
-            <PostList postList={postList?.data.notice_list || []} marginTop={40} />
+            <PostList postList={postList?.notice_list || []} marginTop={40} />
         </_Wrapper>
     );
 };
