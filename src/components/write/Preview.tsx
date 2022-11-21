@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import { IntroductType } from '../../pages/write';
-import { Viewer } from './Editor';
+import { PostRequest } from '../../models/notice/request';
 import MDViewer from './Editor/SetViewer';
 
 interface PropsType {
     modal: boolean;
     setModal: (modal: boolean) => void;
-    Introduct: IntroductType;
+    Introduct: PostRequest;
 }
 
 function PreView({ modal, setModal, Introduct }: PropsType) {
@@ -30,6 +29,11 @@ const _Wrapper = styled.div`
 
 const _ContentWrapper = styled.div`
     padding: 50px 50px;
+    height: 825px;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 const _TapBackground = styled.div<{ modal: boolean }>`

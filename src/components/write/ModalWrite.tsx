@@ -1,31 +1,49 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { IntroductType } from '../../pages/write';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Camera } from '../../assets';
+import { uploadImage } from '../../apis/image';
+import { PostRequest } from '../../models/notice/request';
+import { useRouter } from 'next/router';
+import { writePost } from '../../apis/notice';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
     modal: boolean;
-    Introduct: IntroductType;
-    setIntroduct: (Introduct: IntroductType) => void;
+    Introduct: PostRequest;
+    setIntroduct: Dispatch<SetStateAction<PostRequest>>;
 }
 
 function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
-    const [url, seturl] = useState<string>('');
     const ModalOff = () => setModal(false);
+    const router = useRouter();
 
-    const ShortIntroChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
-        setIntroduct({ ...Introduct, shortIntro: e.target.value.slice(0, 150) });
+    const FileImgChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        if (!e.target.files) return;
 
-    const FileImgChange = (e: ChangeEvent<HTMLInputElement>) => {
         const Filer = new FileReader();
-        Filer.onloadend = () => Filer.result && seturl(Filer.result.toString());
-        if (e.target.files) {
-            Filer.readAsDataURL(e.target.files[0]);
-            setIntroduct({ ...Introduct, mainImg: e.target.files[0] });
+        const IMG = e.target.files[0];
+        let url = '';
+        Filer.onloadend = () => {
+            url = URL.createObjectURL(IMG);
+            setIntroduct(() => ({ ...Introduct, image_url: url }));
+        };
+
+        const Form = new FormData();
+        Form.set('files', IMG);
+
+        try {
+            uploadImage(Form).then((data) => {
+                const img = data.data.images[0];
+                setIntroduct({ ...Introduct, image_url: img });
+            });
+        } catch (e) {
+            URL.revokeObjectURL(url);
+            setIntroduct({ ...Introduct, image_url: '' });
         }
     };
+
+    const PostSummit = () => writePost(Introduct).then(() => router.push('/'));
 
     return (
         modal && (
@@ -38,14 +56,10 @@ function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
                             onChange={FileImgChange}
                             accept=".gif, .jpg, .png, .svg"
                         />
-                        <_ImgBox htmlFor="uploader" border={!!Introduct.mainImg}>
-                            {Introduct.mainImg ? (
+                        <_ImgBox htmlFor="uploader" border={!!Introduct.image_url}>
+                            {Introduct.image_url ? (
                                 <Image
-                                    src={
-                                        typeof Introduct.mainImg === 'string'
-                                            ? Introduct.mainImg
-                                            : url
-                                    }
+                                    src={Introduct.image_url}
                                     alt="file_error"
                                     width={600}
                                     height={325}
@@ -55,14 +69,10 @@ function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
                                 <Image src={Camera} width={20} height={20} />
                             )}
                         </_ImgBox>
-                        <_Content
-                            value={Introduct.shortIntro}
-                            onChange={ShortIntroChange}
-                            placeholder="자신의 게시물을 짧게 설명해 주세요."
-                        />
-                        <_ContentLength>{`${Introduct.shortIntro.length} / 150`}</_ContentLength>
                     </_ShortIntro>
-                    <_OptionButton summit={true}>작성하기</_OptionButton>
+                    <_OptionButton summit={true} onClick={PostSummit}>
+                        작성하기
+                    </_OptionButton>
                     <_OptionButton summit={false} onClick={ModalOff}>
                         취소
                     </_OptionButton>
@@ -109,20 +119,6 @@ const _ShortIntro = styled.div`
     justify-content: space-evenly;
 `;
 
-const _Content = styled.textarea`
-    width: 550px;
-    height: 200px;
-    padding: 15px 15px;
-    font-size: 16px;
-    border: 1px solid ${({ theme }) => theme.color.main};
-    border-radius: 10px;
-    resize: none;
-`;
-
-const _ContentLength = styled.div`
-    color: ${({ theme }) => theme.color.main};
-`;
-
 const _ImgBox = styled.label<{ border: boolean }>`
     display: flex;
     align-items: center;
@@ -130,7 +126,7 @@ const _ImgBox = styled.label<{ border: boolean }>`
     width: 550px;
     height: 325px;
     border: 1px solid ${({ theme, border }) => theme.color[border ? 'white' : 'black']};
-    background-color: ${({ theme, border }) => theme.color[border ? 'white' : 'gray500']};
+    background-color: ${({ theme, border }) => theme.color[border ? 'white' : 'gray300']};
 `;
 
 const _ImgUploader = styled.input`

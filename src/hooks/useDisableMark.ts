@@ -16,7 +16,7 @@ const renderer: { [n: string]: Function } = {
     },
 };
 
-const tokenizer = {
+const tokenizer: any = {
     blockquote() {},
     hr() {},
     list() {},
@@ -35,7 +35,7 @@ const useDisableMark = () => {
             renderer,
         });
         const F = { exec: function () {} };
-        var lexer = new marked.Lexer({});
+        var lexer: any = new marked.Lexer({});
         Feature.map((e) => {
             if (lexer) lexer.tokenizer.rules.block[e] = F;
         });

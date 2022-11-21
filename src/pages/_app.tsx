@@ -3,6 +3,7 @@ import ThemeStyle from '../styles';
 import Header from '../components/Header';
 import 'rc-slider/assets/index.css';
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) {
     const queryClient = new QueryClient({
@@ -13,11 +14,13 @@ function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedS
             },
         },
     });
+    const route = useRouter();
+    const is_on_write_now = route.route.includes('write');
     return (
         <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
                 <ThemeStyle>
-                    <Header />
+                    {!is_on_write_now && <Header />}
                     <Component {...pageProps} />
                 </ThemeStyle>
             </Hydrate>

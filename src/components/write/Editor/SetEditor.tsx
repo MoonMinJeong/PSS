@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { EditorType } from '.';
 import styled from '@emotion/styled';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
@@ -16,14 +16,21 @@ function MDEditor({ Introduct, setIntroduct }: EditorType) {
     const Ref = useRef<HTMLDivElement | null>(null);
     const [change, setchange] = useState<string>('');
 
+    // hook
     const { setEdit, setView } = useEditFunction();
     const createElement = useCreateElement();
-    const [ClickButtonAdd, ClickButtonSet] = useAddMD();
+    const [ClickButtonAdd, ClickButtonSet, ClickImgAdd] = useAddMD();
 
+    // state hook
     const SetViewer = (view: string) => setIntroduct({ ...Introduct, content: view });
-    const SetEditor = (edit: string) => {
-        setchange(edit);
-    };
+    const SetEditor = (edit: string) => setchange(edit);
+
+    const F_SetViewer = (view: string) =>
+        setIntroduct((prev) => ({
+            ...prev,
+            content: view,
+        }));
+    const F_SetEditor = (edit: string) => setchange(() => edit);
 
     const onChangeHTMLValue = (e: ContentEditableEvent) => {
         const { value } = e.target;
@@ -36,12 +43,30 @@ function MDEditor({ Introduct, setIntroduct }: EditorType) {
     const ClickInsertMark = (str: string, strLen: number) => {
         ClickButtonAdd(Ref.current, str, SetEditor, SetViewer, strLen);
     };
-    const ClickSetMark = (str: string, tag?: string) =>
-        ClickButtonSet(Ref.current, SetEditor, SetViewer, str, tag);
+    const ClickSetMark = (str: string) => ClickButtonSet(Ref.current, SetEditor, SetViewer, str);
+
+    const ClickImgMark = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+
+        let filer = new FileReader();
+        const IMG = e.target.files[0];
+
+        filer.readAsDataURL(IMG);
+        filer.onloadend = () => {
+            const url = URL.createObjectURL(IMG);
+            const ImageForm = new FormData();
+            ImageForm.set('files', IMG);
+            ClickImgAdd(Ref.current, F_SetEditor, F_SetViewer, url, ImageForm);
+        };
+    };
 
     return (
         <div>
-            <ButtonList onClickAdding={ClickInsertMark} onClickSetting={ClickSetMark} />
+            <ButtonList
+                onClickAdding={ClickInsertMark}
+                onClickSetting={ClickSetMark}
+                onClickImg={ClickImgMark}
+            />
             <_EditableDiv className="HelloEditor">
                 <ContentEditable
                     html={change}
@@ -57,9 +82,26 @@ function MDEditor({ Introduct, setIntroduct }: EditorType) {
 }
 
 const _EditableDiv = styled.div`
+    height: 432px;
+    overflow-y: scroll;
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: ${({theme}) => theme.color.gray500};
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: ${({theme}) => theme.color.main};
+        border-radius: 5px;
+    }
     &.HelloEditor {
         padding: 20px 10px 0 10px;
         font-size: 18px;
+        em {
+            font-style: italic;
+        }
         [placeholder]:empty::before {
             content: attr(placeholder);
             color: #555;

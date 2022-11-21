@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, useState } from 'react';
-import { IntroductType } from '../../pages/write';
+import { ChangeEvent } from 'react';
+import { PostRequest } from '../../models/notice/request';
 
 interface PropsType {
     placeholder: string;
-    Introduct: IntroductType;
-    setIntroduct: (Introduct: IntroductType) => void;
+    Introduct: PostRequest;
+    setIntroduct: (Introduct: PostRequest) => void;
 }
 
 function TitleInput({ placeholder, setIntroduct, Introduct }: PropsType) {

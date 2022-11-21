@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ChangeEvent } from 'react';
 import {
     Bold_Button,
     Code_Button,
@@ -10,15 +11,19 @@ import {
     UnderScore_Button,
 } from '../../../assets';
 import EditButton from '../../common/EditButton';
+import InputForImage from '../../common/InputFile';
+import ImgEditButton from '../../common/ImgEditButton';
 
 interface PropsType {
     onClickAdding: (str: string, strLen: number) => void;
     onClickSetting: (str: string, tag?: string) => void;
+    onClickImg: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function ButtonList({ onClickAdding, onClickSetting }: PropsType) {
+function ButtonList({ onClickAdding, onClickSetting, onClickImg }: PropsType) {
     return (
         <_EditToolBar>
+            <InputForImage id="imgButton" accept=".png, .svg, .gif" onChange={onClickImg} />
             <EditButton
                 src={H_Button}
                 width={14}
@@ -58,19 +63,23 @@ function ButtonList({ onClickAdding, onClickSetting }: PropsType) {
                 src={UnderScore_Button}
                 width={16}
                 height={22}
-                onClick={() => onClickAdding('~~<del>텍스트</del>~~', 5)}
+                onClick={() => onClickAdding('~~텍스트~~', 5)}
             />
             <EditButton
                 src={Code_Button}
                 width={24}
-                onClick={() => onClickAdding('```<code>텍스트</code>```', 9)}
+                onClick={() => onClickAdding('```텍스트```', 9)}
             />
             <_EditButtonLine />
-            <EditButton src={Quote_Button} width={24} onClick={() => onClickSetting('> ', 'blockquote')} />
             <EditButton
+                src={Quote_Button}
+                width={24}
+                onClick={() => onClickSetting('> ', 'blockquote')}
+            />
+            <ImgEditButton
                 src={Image_Button}
                 width={22}
-                onClick={() => onClickAdding('![url](이미지)', 11)}
+                htmlFor="imgButton"
             />
             <EditButton
                 src={Link_Button}

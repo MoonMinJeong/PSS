@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { ChangeEvent, useState, FormEvent, KeyboardEvent } from 'react';
-import { IntroductType } from '../../pages/write';
+import { PostRequest } from '../../models/notice/request';
 
 interface PropsType {
-    name: 'skill' | 'attend';
+    name: 'stacks' | 'nicknames';
     placeholder: string;
-    Introduct: IntroductType;
-    setIntroduct: (Introduct: IntroductType) => void;
+    Introduct: PostRequest;
+    setIntroduct: (Introduct: PostRequest) => void;
 }
 
 function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
@@ -34,7 +34,7 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
         <_Wrapper>
             {tag.length !== 0 &&
                 tag.map((el, idx) =>
-                    name === 'skill' ? (
+                    name === 'stacks' ? (
                         <_SkillTag key={idx} onClick={() => removeTag(idx)}>
                             {el}
                         </_SkillTag>
