@@ -23,7 +23,7 @@ export const getPostList = async (sort: SortType, star: number, title: string) =
 };
 
 export const getPostDetail = async (notice_id: string) => {
-    return (await instance.get<GetPostDetailResponse>(`/notice?notice-id=${notice_id}`)).data;
+    return (await instance.get<GetPostDetailResponse>(`/notice/${notice_id}`)).data;
 };
 
 export const savePost = async (body: SavePostRequest) => {
