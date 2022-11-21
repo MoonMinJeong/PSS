@@ -5,22 +5,24 @@ import { heartIcon, starIcon, viewIcon } from '../../assets';
 import styled from '@emotion/styled';
 import profile from '../../assets/dummy/profile.svg';
 import { howLong } from '../../utils/translate';
+import { NoticeCardData } from '../../models/notice/response';
+import Link from 'next/link';
 
 interface PopularityItem {
     icon: string;
-    name: 'heart_count' | 'view_count' | 'start_count';
+    name: 'likes' | 'view_count' | 'stars';
     alt: string;
 }
 
 const popularityArr: PopularityItem[] = [
     {
         icon: heartIcon,
-        name: 'heart_count',
+        name: 'likes',
         alt: '하트',
     },
     {
         icon: starIcon,
-        name: 'start_count',
+        name: 'stars',
         alt: '별점',
     },
     {
@@ -30,40 +32,36 @@ const popularityArr: PopularityItem[] = [
     },
 ];
 
-interface PostCardItemProps {}
+interface PostCardItemProps {
+    cardItem: NoticeCardData;
+}
 
-const oneDayAGo = new Date(2022, 9, 17, 16, 54, 0);
-
-const PostCard = ({}: PostCardItemProps) => {
-    const dummy = {
-        heart_count: 178,
-        start_count: 3.5,
-        view_count: 10000,
-    };
+const PostCard = ({ cardItem }: PostCardItemProps) => {
+    const createdTime = new Date(cardItem.create_time);
     return (
-        <_PostCard>
-            <Image src={mainImage} alt="대표 사진" />
-            <h1 className="title">우리 프로젝트는~~~</h1>
-            <p className="summary">
-                프로젝트 소개? 이제는 여기서 하세요 ㅋ 최강 문정민 최강 프소서 최강 문정민 최강
-                프소서 최강 문정민 최강 프소서
-            </p>
-            <_TagList>
-                <Tag text={'Java'} />
-                <Tag text={'Spring boot'} />
-            </_TagList>
-            <_FlexWrapper>
-                <Image src={profile} alt={'프로필'} />
-                <p className="author">hyeyeonchurros</p>
-                <p className="howLong">{howLong(oneDayAGo)}</p>
-                {popularityArr.map((item, index) => (
-                    <_Popularity key={index}>
-                        <Image src={item.icon} alt="popularity" />
-                        <p>{dummy[item.name]}</p>
-                    </_Popularity>
-                ))}
-            </_FlexWrapper>
-        </_PostCard>
+        <Link href={'/detail/' + cardItem.notice_id}>
+            <_PostCard>
+                <img src={cardItem.image_url} alt="대표 사진" />
+                <h1 className="title">{cardItem.title}</h1>
+                <p className="summary">{cardItem.introduction.slice(0, 20)}</p>
+                <_TagList>
+                    {cardItem.stacks.map((item, index) => (
+                        <Tag text={item} key={index} />
+                    ))}
+                </_TagList>
+                <_FlexWrapper>
+                    <img src={cardItem.profile_image} alt={'프로필'} />
+                    <p className="author">{cardItem.nickname}</p>
+                    <p className="howLong">{howLong(createdTime)}</p>
+                    {popularityArr.map((item, index) => (
+                        <_Popularity key={index}>
+                            <Image src={item.icon} alt="popularity" />
+                            <p>{cardItem[item.name]}</p>
+                        </_Popularity>
+                    ))}
+                </_FlexWrapper>
+            </_PostCard>
+        </Link>
     );
 };
 
@@ -71,7 +69,7 @@ export default PostCard;
 
 const _PostCard = styled.li`
     width: 342px;
-    height: 368px;
+    height: 400px;
     cursor: pointer;
     transition: margin-top 0.3s ease-in-out;
     :hover {
@@ -87,10 +85,13 @@ const _PostCard = styled.li`
         font-weight: ${({ theme }) => theme.font.bold};
         color: ${({ theme }) => theme.color.black};
         margin-top: 12px;
+        text-overflow: ellipsis;
     }
     > .summary {
         margin-top: 6px;
         font-size: 16px;
+        height: 46px;
+        width: 100%;
         color: ${({ theme }) => theme.color.gray700};
     }
 `;
@@ -100,6 +101,11 @@ const _FlexWrapper = styled.div`
     margin-top: 12px;
     > span {
         user-select: none;
+    }
+    > img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
     }
     > .author {
         margin-left: 6px;
@@ -130,5 +136,10 @@ const _Popularity = styled.div`
     }
     :first-of-type {
         margin-left: auto;
+    }
+    > img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
     }
 `;

@@ -1,15 +1,25 @@
 import styled from '@emotion/styled';
+import { writeComment } from '../../../apis/comment';
+import { writeReply } from '../../../apis/reply';
 
 interface Props {
     isCancel: boolean;
     onCancel: () => void;
+    text: string;
+    noticeId: string;
+    type: 'reply' | 'comment';
 }
 
-const CommentButtonBox = ({ isCancel, onCancel }: Props) => {
+const CommentButtonBox = ({ isCancel, type, onCancel, text, noticeId }: Props) => {
+    const onClickWrite = () => {
+        type === 'comment'
+            ? writeComment({ content: text }, noticeId)
+            : writeReply({ content: text }, noticeId);
+    };
     return (
         <_ButtonContainer>
             {isCancel && <_CancelButton onClick={onCancel}>취소</_CancelButton>}
-            <_WriteButton>작성하기</_WriteButton>
+            <_WriteButton onClick={() => onClickWrite()}>작성하기</_WriteButton>
         </_ButtonContainer>
     );
 };

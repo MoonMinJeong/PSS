@@ -4,12 +4,17 @@ import Image from 'next/image';
 import { ArrowIcon } from '../assets';
 import icon from '../assets/dummy/profile.svg';
 import DropdownItem, { DropDownItem } from './common/DropdownItem';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useRouter } from 'next/router';
 
 export default function Header() {
     const router = useRouter();
+    const [isLogin, setIsLogin] = useState(false);
+    useEffect(() => {
+        setIsLogin(localStorage.getItem('access_token') !== null);
+    }, []);
+    const [dropdownOpened, setDropdownOpened] = useState(false);
     const dropdownItems: DropDownItem[] = useMemo(() => {
         return [
             {
@@ -33,18 +38,17 @@ export default function Header() {
             {
                 summary: '로그아웃',
                 onClickFunction: () => {
-                    console.log('로그아웃');
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
                 },
                 isRed: true,
             },
         ];
     }, []);
-    const [dropdownOpened, setDropdownOpened] = useState(false);
-    return (
-        <_Filler>
-            <_Wrapper>
-                <_Content>
-                    <p></p>
+    const headerItem = useMemo(
+        () =>
+            isLogin ? (
+                <>
                     <Link href={'/write'}>
                         <_WritePost>소개글 작성하기</_WritePost>
                     </Link>
@@ -59,6 +63,18 @@ export default function Header() {
                             </OutsideClickHandler>
                         )}
                     </_ProfileWrapper>
+                </>
+            ) : (
+                <_LoginButton>LOGIN</_LoginButton>
+            ),
+        [isLogin, dropdownOpened],
+    );
+    return (
+        <_Filler>
+            <_Wrapper>
+                <_Content>
+                    <p></p>
+                    {headerItem}
                 </_Content>
             </_Wrapper>
         </_Filler>
@@ -102,4 +118,8 @@ const _ProfileWrapper = styled.label`
     > button {
         margin-left: 8px;
     }
+`;
+
+const _LoginButton = styled.button`
+    font-size: 20px;
 `;
