@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
-import FilterIcon from '../assets/filterIcon';
+import FilterIcon from '../assets/FilterIcon';
 import SliderController from './SliderController';
 import OutsideClickHandler from 'react-outside-click-handler';
-
-type SortType = 'RECENTLY' | 'POPULARITY';
+import { SortType } from '../apis/notice';
+import usePostFilter from '../hooks/usePostFilter';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 interface SortButtonArray {
     sort: SortType;
@@ -20,37 +19,32 @@ export interface FilterState {
 
 const filterArray: SortButtonArray[] = [
     {
-        sort: 'POPULARITY',
+        sort: 'like',
         summary: '인기순',
     },
     {
-        sort: 'RECENTLY',
+        sort: 'time',
         summary: '최신순',
     },
 ];
 
-const Filter = () => {
-    const [filter, setFilter] = useState<FilterState>({
-        sort: 'POPULARITY',
-        keyword: '',
-        min_star_point: 0,
-    });
-    const [filterOpened, setFilterOpened] = useState(false);
-    const onChangeSortType = (sort: SortType) => {
-        setFilter({
-            ...filter,
-            sort,
-        });
-    };
-    const onChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-        setFilter({
-            ...filter,
-            keyword: e.target.value,
-        });
-    };
-    const changeFilterStatus = () => {
-        setFilterOpened(!filterOpened);
-    };
+interface Props {
+    filter: FilterState;
+    changeFilterStatus: () => void;
+    onChangeKeyword: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChangeSortType: (sort: SortType) => void;
+    filterOpened: boolean;
+    setFilter: Dispatch<SetStateAction<FilterState>>;
+}
+
+const Filter = ({
+    filter,
+    onChangeKeyword,
+    onChangeSortType,
+    filterOpened,
+    setFilter,
+    changeFilterStatus,
+}: Props) => {
     return (
         <_Wrapper>
             {filterArray.map((item, index) => (

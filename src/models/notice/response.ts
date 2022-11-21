@@ -1,4 +1,4 @@
-interface NoticeCardData {
+export interface NoticeCardData {
     notice_id: string;
     title: string;
     image_url: string;
@@ -10,6 +10,7 @@ interface NoticeCardData {
     profile_image: string;
     create_time: Date;
     mine: boolean;
+    likes: number;
 }
 
 export interface GetPostListResponse {

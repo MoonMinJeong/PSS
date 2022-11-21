@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import PostCard from './PostCard';
 import GoToTop from '../common/GoToTop';
+import { NoticeCardData } from '../../models/notice/response';
 
 interface Props {
-    postList: any[];
+    postList: NoticeCardData[];
     marginTop: number;
 }
 
@@ -11,11 +12,9 @@ const PostList = ({ postList, marginTop }: Props) => {
     return (
         <_Wrapper marginTop={marginTop}>
             <GoToTop />
-            {Array(10)
-                .fill(void 0)
-                .map((_, index) => (
-                    <PostCard key={index} />
-                ))}
+            {postList.map((item) => (
+                <PostCard cardItem={item} key={item.notice_id} />
+            ))}
         </_Wrapper>
     );
 };
