@@ -7,10 +7,12 @@ import DropdownItem, { DropDownItem } from './common/DropdownItem';
 import { useEffect, useMemo, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useRouter } from 'next/router';
+import LoginModal from './login/LoginModal';
 
 export default function Header() {
     const router = useRouter();
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
     useEffect(() => {
         setIsLogin(localStorage.getItem('access_token') !== null);
     }, []);
@@ -65,19 +67,27 @@ export default function Header() {
                     </_ProfileWrapper>
                 </>
             ) : (
-                <_LoginButton>LOGIN</_LoginButton>
+                <_LoginButton
+                    onClick={() => {
+                        setOpenModal(true);
+                    }}>
+                    LOGIN
+                </_LoginButton>
             ),
         [isLogin, dropdownOpened],
     );
     return (
-        <_Filler>
-            <_Wrapper>
-                <_Content>
-                    <p></p>
-                    {headerItem}
-                </_Content>
-            </_Wrapper>
-        </_Filler>
+        <>
+            <_Filler>
+                <_Wrapper>
+                    <_Content>
+                        <p></p>
+                        {headerItem}
+                    </_Content>
+                    {openModal && <LoginModal setOpenModal={setOpenModal} />}
+                </_Wrapper>
+            </_Filler>
+        </>
     );
 }
 const _Filler = styled.header`
