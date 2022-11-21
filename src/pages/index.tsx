@@ -4,14 +4,32 @@ import PostList from '../components/post/PostList';
 import Banner from '../components/Banner';
 import { useQuery } from 'react-query';
 import { getPostList } from '../apis/notice';
+import usePostFilter from '../hooks/usePostFilter';
 
 const MainPage = () => {
-    const { data: postList } = useQuery(['postlist'], () => getPostList('like', 0, ''));
-    console.log(postList);
+    const {
+        filter,
+        changeFilterStatus,
+        onChangeKeyword,
+        onChangeSortType,
+        filterOpened,
+        setFilter,
+    } = usePostFilter();
+    const { data: postList } = useQuery(
+        ['postlist', filter.sort, filter.min_star_point, filter.keyword],
+        () => getPostList(filter.sort, filter.min_star_point, filter.keyword),
+    );
     return (
         <_Wrapper>
             <Banner />
-            <Filter />
+            <Filter
+                filter={filter}
+                changeFilterStatus={changeFilterStatus}
+                onChangeKeyword={onChangeKeyword}
+                onChangeSortType={onChangeSortType}
+                filterOpened={filterOpened}
+                setFilter={setFilter}
+            />
             <PostList postList={postList?.data.notice_list || []} marginTop={40} />
         </_Wrapper>
     );
