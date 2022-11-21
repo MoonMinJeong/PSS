@@ -12,7 +12,7 @@ export const howLong = (createdAt: Date) => {
     else if (diff < dayToSecond) return `${Math.floor(diff / hourToSecond)}시 전`;
     else if (diff < monthToSecond) return `${Math.floor(diff / dayToSecond)}일 전`;
     else
-        return `${createdDate.getFullYear()}년 ${
+        return `${createdDate.getFullYear()}.${
             createdDate.getMonth() + 1
-        }월 ${createdDate.getDate()}일`;
+        }.${createdDate.getDate()}`;
 };
