@@ -45,40 +45,40 @@ function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
 
     const PostSummit = () => writePost(Introduct).then(() => router.push('/'));
 
-    return (
-        modal && (
-            <_Wrapper>
-                <_SummitTemple>
-                    <_ShortIntro>
-                        <_ImgUploader
-                            type="file"
-                            id="uploader"
-                            onChange={FileImgChange}
-                            accept=".gif, .jpg, .png, .svg"
-                        />
-                        <_ImgBox htmlFor="uploader" border={!!Introduct.image_url}>
-                            {Introduct.image_url ? (
-                                <Image
-                                    src={Introduct.image_url}
-                                    alt="file_error"
-                                    width={600}
-                                    height={325}
-                                    objectFit="cover"
-                                />
-                            ) : (
-                                <Image src={Camera} width={20} height={20} />
-                            )}
-                        </_ImgBox>
-                    </_ShortIntro>
-                    <_OptionButton summit={true} onClick={PostSummit}>
-                        작성하기
-                    </_OptionButton>
-                    <_OptionButton summit={false} onClick={ModalOff}>
-                        취소
-                    </_OptionButton>
-                </_SummitTemple>
-            </_Wrapper>
-        )
+    return modal ? (
+        <_Wrapper>
+            <_SummitTemple>
+                <_ShortIntro>
+                    <_ImgUploader
+                        type="file"
+                        id="uploader"
+                        onChange={FileImgChange}
+                        accept=".gif, .jpg, .png, .svg"
+                    />
+                    <_ImgBox htmlFor="uploader" border={!!Introduct.image_url}>
+                        {Introduct.image_url ? (
+                            <Image
+                                src={Introduct.image_url}
+                                alt="file_error"
+                                width={600}
+                                height={325}
+                                objectFit="cover"
+                            />
+                        ) : (
+                            <Image src={Camera} width={20} height={20} />
+                        )}
+                    </_ImgBox>
+                </_ShortIntro>
+                <_OptionButton summit={true} onClick={PostSummit}>
+                    작성하기
+                </_OptionButton>
+                <_OptionButton summit={false} onClick={ModalOff}>
+                    취소
+                </_OptionButton>
+            </_SummitTemple>
+        </_Wrapper>
+    ) : (
+        <></>
     );
 }
 

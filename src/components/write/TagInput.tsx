@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, useState, FormEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, useState, FormEvent, KeyboardEvent, useMemo, useEffect } from 'react';
 import { PostRequest } from '../../models/notice/request';
+import { Mention, MentionItem, MentionsInput, SuggestionDataItem } from 'react-mentions';
+import { useQuery } from 'react-query';
+import { getUserSearch } from '../../apis/user';
+import { GetUserResponse } from '../../models/user/response';
 
 interface PropsType {
     name: 'stacks' | 'nicknames';
@@ -11,6 +15,7 @@ interface PropsType {
 
 function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
     const [tagWord, setWord] = useState<string>('');
+    const [keyword, setKeyword] = useState('');
     const tag = Introduct[name];
 
     const TagChange = (e: ChangeEvent<HTMLInputElement>) => setWord(e.target.value);
@@ -18,10 +23,11 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
     const addTag = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (tag.includes(tagWord) || tagWord === '') return;
-        setIntroduct({ ...Introduct, [name]: Introduct[name].concat(tagWord) });
         setWord('');
+        if (name === 'stacks')
+            setIntroduct({ ...Introduct, stacks: Introduct.stacks.concat(tagWord) });
+        else setIntroduct({ ...Introduct, nicknames: Introduct.nicknames.concat(keyword) });
     };
-
     const removeTagBack = (e: KeyboardEvent<HTMLInputElement>) =>
         e.keyCode === 8 &&
         tagWord === '' &&
@@ -29,7 +35,44 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
 
     const removeTag = (idx: number) =>
         setIntroduct({ ...Introduct, [name]: tag.filter((_, i) => idx !== i) });
-
+    const onChange = (
+        event: { target: { value: string } },
+        newValue: string,
+        newPlainTextValue: string,
+        mentions: MentionItem[],
+    ) => {
+        setWord(event.target.value);
+        setKeyword(event.target.value);
+    };
+    const { data } = useQuery(['searchUser', name, keyword], () =>
+        name === 'nicknames' && tagWord[0] === '@'
+            ? getUserSearch(
+                  keyword
+                      .split('')
+                      .filter((_, index) => index !== 0)
+                      .join(''),
+              )
+            : {
+                  list: [],
+              },
+    );
+    const suggestionUsers: SuggestionDataItem[] = useMemo(() => {
+        if (data)
+            return data.list.map((item) => {
+                return {
+                    id: item.id,
+                    display: item.nickname,
+                };
+            });
+        else return [];
+    }, [data]);
+    const onAdd = (id: string | number, display: string) => {
+        setKeyword('');
+        setIntroduct({
+            ...Introduct,
+            nicknames: Introduct.nicknames.concat(display),
+        });
+    };
     return (
         <_Wrapper>
             {tag.length !== 0 &&
@@ -45,13 +88,29 @@ function TagInput({ name, placeholder, setIntroduct, Introduct }: PropsType) {
                     ),
                 )}
             <form onSubmit={addTag}>
-                <_NameInput
-                    name={name}
-                    value={tagWord}
-                    placeholder={placeholder}
-                    onChange={TagChange}
-                    onKeyDown={removeTagBack}
-                />
+                {name === 'stacks' ? (
+                    <_NameInput
+                        name={name}
+                        value={tagWord}
+                        placeholder={placeholder}
+                        onChange={TagChange}
+                        onKeyDown={removeTagBack}
+                    />
+                ) : (
+                    <MentionsInput
+                        value={keyword}
+                        onChange={onChange}
+                        allowSuggestionsAboveCursor={true}
+                        className={name}
+                        name={name}
+                        placeholder={
+                            tag.length === 0
+                                ? '프로젝트에 참가한 인원을 작성해 주세요. ex)@pss'
+                                : ''
+                        }>
+                        <Mention trigger={'@'} onAdd={onAdd} data={suggestionUsers} />
+                    </MentionsInput>
+                )}
             </form>
         </_Wrapper>
     );
@@ -62,6 +121,17 @@ const _Wrapper = styled.div`
     align-items: center;
     flex-wrap: wrap;
     padding: 10px 0;
+    > form {
+        > .nicknames {
+            width: 400px;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: ${({ theme }) => theme.font.bold};
+            ::placeholder {
+                color: ${({ theme }) => theme.color.gray700};
+            }
+        }
+    }
 `;
 
 const _NameInput = styled.input`
