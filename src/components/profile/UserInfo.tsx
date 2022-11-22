@@ -2,18 +2,24 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { githubIcon } from '../../assets';
 
-const UserInfo = () => {
+interface Props {
+    name: string;
+    email: string;
+    profile_image: string;
+}
+
+const UserInfo = ({ name, email, profile_image }: Props) => {
     return (
         <_Wrapper>
-            <Image src={''} />
+            <img src={profile_image} alt="프로필" width={190} height={190} />
             <_Summary>
                 <div className="name">
-                    HYEYEON
+                    {name}
                     <button>
                         <Image src={githubIcon} alt="github" />
                     </button>
                 </div>
-                <p className="email">hyeyeonchurros@naver.com</p>
+                <p className="email">{email}</p>
             </_Summary>
         </_Wrapper>
     );
@@ -23,13 +29,14 @@ export default UserInfo;
 const _Wrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 91px;
+    margin: 91px 0 74px 0;
     width: 190px;
     height: 190px;
     border-radius: 50%;
 
     > img {
         margin-right: 36px;
+        border-radius: 50%;
     }
 `;
 
