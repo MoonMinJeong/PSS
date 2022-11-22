@@ -1,4 +1,4 @@
-interface PostData {
+export interface PostData {
     notice_id: string;
     title: string;
     image_url: string;
@@ -9,7 +9,7 @@ interface PostData {
     likes: number;
     nickname: string;
     profile_image: string;
-    create_time: Date;
+    create_time: string;
     mine: boolean;
 }
 

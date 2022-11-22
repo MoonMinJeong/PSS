@@ -34,8 +34,10 @@ function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
 
         try {
             uploadImage(Form).then((data) => {
-                const img = data.data.images[0];
-                setIntroduct({ ...Introduct, image_url: img });
+                if (data) {
+                    const img = data.data.images[0];
+                    setIntroduct({ ...Introduct, image_url: img });
+                }
             });
         } catch (e) {
             URL.revokeObjectURL(url);

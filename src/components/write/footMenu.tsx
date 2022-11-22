@@ -1,14 +1,27 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Dispatch, SetStateAction } from 'react';
+import { savePost } from '../../apis/notice';
 import { backPage } from '../../assets';
+import { SavePostRequest } from '../../models/notice/request';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
+    Introduct: SavePostRequest;
 }
 
-function FootMenu({ setModal }: PropsType) {
+function FootMenu({ setModal, Introduct }: PropsType) {
     const SetModal = () => setModal(true);
+    const route = useRouter();
+    const RequestObj = {
+        title: Introduct.title,
+        content: Introduct.content,
+        image_url: Introduct.image_url,
+    };
+
+    const savePoint = () => savePost(RequestObj).then((res) => res && route.push('/'));
 
     return (
         <_Wrapper>
@@ -20,7 +33,7 @@ function FootMenu({ setModal }: PropsType) {
             </Link>
 
             <_SaveSummitBox>
-                <_SaveButton>임시저장</_SaveButton>
+                <_SaveButton onClick={savePoint}>임시저장</_SaveButton>
 
                 <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
             </_SaveSummitBox>
