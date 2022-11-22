@@ -11,14 +11,20 @@ interface Props {
 const HeartButton = ({ noticeId }: Props) => {
     const { data: postDetail } = usePostDetail(noticeId);
     const [isClicked, setIsClicked] = useState(false);
-
+    const [likeCount, setLikeCount] = useState<number>(postDetail?.likes || 0);
     useEffect(() => {
-        setIsClicked(!!postDetail?.is_like);
+        if (postDetail) {
+            setIsClicked(postDetail.is_like);
+            setLikeCount(postDetail.likes);
+        }
     }, [postDetail]);
 
     const onClickHeart = () => {
-        isClicked ? like(noticeId) : cancelLike(noticeId);
+        isClicked
+            ? cancelLike(noticeId).then(() => setLikeCount((prev) => prev - 1))
+            : like(noticeId).then(() => setLikeCount((prev) => prev + 1));
     };
+
     return (
         <_HeartButtonContainerWrapper>
             <_HeartButtonContainer>
@@ -29,7 +35,7 @@ const HeartButton = ({ noticeId }: Props) => {
                     }}>
                     <HeartIcon isClicked={isClicked} />
                 </_HeartButton>
-                <p>{postDetail?.likes}</p>
+                <p>{likeCount}</p>
             </_HeartButtonContainer>
         </_HeartButtonContainerWrapper>
     );
