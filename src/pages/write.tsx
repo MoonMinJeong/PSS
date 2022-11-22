@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import FootMenu from '../components/write/footMenu';
+import FootMenu from '../components/write/FootMenu';
 import InputSession from '../components/write/PutInfoWrite';
 import PreView from '../components/write/Preview';
 import ModalWrite from '../components/write/ModalWrite';
@@ -25,7 +25,7 @@ function WritePost() {
                 <_EditorBox>
                     <Editor Introduct={Introduct} setIntroduct={setIntroduct} />
                 </_EditorBox>
-                <FootMenu setModal={setModal} />
+                <FootMenu setModal={setModal} Introduct={Introduct} />
                 <ModalWrite
                     setModal={setModal}
                     setIntroduct={setIntroduct}
