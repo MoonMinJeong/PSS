@@ -1,18 +1,19 @@
 import styled from '@emotion/styled';
 import SavePost from '../components/save/SavePost';
 import Title from '../components/save/Title';
+import { useSaveList } from '../hooks/useSaveList';
 
 function saveProfile() {
+    const { saveNotice, clientRemove } = useSaveList();
+
     return (
         <_Wrapper>
             <_Center>
-                <Title user_Name="김태완" post_Count={5} />
+                <Title user_Name={saveNotice.nickname} post_Count={saveNotice.notice_list.length} />
                 <_SaveBox>
-                    <SavePost onClickForRemove={() => {}} />
-                    <SavePost onClickForRemove={() => {}} />
-                    <SavePost onClickForRemove={() => {}} />
-                    <SavePost onClickForRemove={() => {}} />
-                    <SavePost onClickForRemove={() => {}} />
+                    {saveNotice.notice_list.map((e, i) => (
+                        <SavePost key={i} saveNotice={e} onClickForRemove={clientRemove} />
+                    ))}
                 </_SaveBox>
             </_Center>
         </_Wrapper>
@@ -32,8 +33,8 @@ const _Center = styled.div`
 const _SaveBox = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content:space-between;
-    margin-top:50px;
+    justify-content: space-between;
+    margin-top: 50px;
 `;
 
 export default saveProfile;

@@ -3,23 +3,26 @@ import Link from 'next/link';
 import { PostData } from '../../models/profile/responce';
 
 interface PropsTyps {
-    // saveNotice: PostData;
-    onClickForRemove: () => void;
+    saveNotice: PostData;
+    onClickForRemove: (notice_Id: string) => void;
 }
 
-function SavePost({ onClickForRemove }: PropsTyps) {
-    // const day = saveNotice.create_time.split('T');
+function SavePost({ saveNotice, onClickForRemove }: PropsTyps) {
+    const day = saveNotice.create_time.split('T');
+
+    const clientRemove = () => onClickForRemove(saveNotice.notice_id);
+
     return (
         <_Wrapper>
             <Link href="/">
-                <div>
-                    <_Title>{'타이틀'}</_Title>
-                    <_Content>{'내용'}</_Content>
-                </div>
+                <_ContentBox>
+                    <_Title>{saveNotice.nickname}</_Title>
+                    <_Content>{saveNotice.introduction}</_Content>
+                </_ContentBox>
             </Link>
             <_BottomBox>
-                <_Day>{'2022-10-18'}</_Day>
-                <_Remove onClick={onClickForRemove}>삭제</_Remove>
+                <_Day>{day[0]}</_Day>
+                <_Remove onClick={clientRemove}>삭제</_Remove>
             </_BottomBox>
         </_Wrapper>
     );
@@ -43,6 +46,10 @@ const _Title = styled.div`
 const _Content = styled.div`
     color: ${({ theme }) => theme.color.gray700};
     height: 80px;
+`;
+
+const _ContentBox = styled.div`
+    cursor: pointer;
 `;
 
 const _BottomBox = styled.div`
