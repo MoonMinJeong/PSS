@@ -9,15 +9,18 @@ interface Props {
     isCancel: boolean;
     onCancel: () => void;
     noticeId: string;
+    commentId?: string;
     type: 'reply' | 'comment';
 }
 
-const CommentInput = ({ placeholder, isCancel, onCancel, noticeId, type }: Props) => {
+const CommentInput = ({ placeholder, isCancel, onCancel, noticeId, type, commentId }: Props) => {
     const [text, setText] = useState('');
     const { data: postDetail } = usePostDetail(noticeId);
     return (
         <_CommentInputContainer>
-            {postDetail?.list !== undefined && <_Label>{postDetail.list.length}개의 댓글</_Label>}
+            {postDetail?.list !== undefined && type === 'comment' && (
+                <_Label>{postDetail.list.length}개의 댓글</_Label>
+            )}
             <TextareaAutosize
                 placeholder={placeholder}
                 onChange={(e) => setText(e.target.value)}
@@ -29,6 +32,7 @@ const CommentInput = ({ placeholder, isCancel, onCancel, noticeId, type }: Props
                 isCancel={isCancel}
                 onCancel={onCancel}
                 noticeId={noticeId}
+                commentId={commentId}
             />
         </_CommentInputContainer>
     );

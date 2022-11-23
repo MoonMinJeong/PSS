@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { modifyStar, writeStar } from '../../apis/star';
 import StarIcon from '../../assets/postDetail/StarIcon';
+import usePostDetail from '../../hooks/usePostDetail';
 
 interface Props {
     noticeId: string;
@@ -9,13 +10,22 @@ interface Props {
 
 const Rating = ({ noticeId }: Props) => {
     const [hovered, setHovered] = useState(0);
+    const { data } = usePostDetail(noticeId);
     const [rating, setRating] = useState(0);
-    {
-        /*TODO. Detail Post api 연동한 뒤 Rating 변경 감지 추가*/
-    }
-    const onClickStar = useCallback(() => {
-        rating ? modifyStar({ stars: rating }, noticeId) : writeStar({ stars: rating }, noticeId);
-    }, [rating, noticeId]);
+
+    useEffect(() => {
+        setRating(data?.my_star || 0);
+    }, [data]);
+
+    const onClickStar = useCallback(
+        (currentRating: number) => {
+            rating > 0
+                ? modifyStar({ stars: currentRating }, noticeId)
+                : writeStar({ stars: currentRating }, noticeId);
+            setRating(currentRating);
+        },
+        [rating, noticeId],
+    );
     return (
         <_RatingContainer>
             <_StarBox>
@@ -26,9 +36,8 @@ const Rating = ({ noticeId }: Props) => {
                             key={i}
                             onMouseLeave={() => setHovered(0)}
                             onMouseEnter={() => setHovered(i + 1)}
-                            onClick={() => {
-                                setRating(i + 1);
-                                onClickStar();
+                            onClick={async () => {
+                                onClickStar(i + 1);
                             }}>
                             <StarIcon color={rating > i || hovered > i ? '#8FB5FF' : '#dedede'} />
                         </div>
