@@ -9,6 +9,7 @@ import CommentInput from '../../components/postDetail/postComment/CommentInput';
 import Comment from '../../components/postDetail/postComment/Comment';
 import usePostDetail from '../../hooks/usePostDetail';
 import { GetServerSideProps, NextPage } from 'next';
+import MDViewer from '../../components/write/Editor/SetViewer';
 
 interface PostDetailProps {
     id: string;
@@ -30,7 +31,7 @@ export const PostDetail: NextPage<PostDetailProps> = ({ id }) => {
                 ))}
             </_TagBox>
             {!!postDetail?.nicknames.length && <Participant noticeId={id} />}
-            {/*TODO. Content 추가*/}
+            <MDViewer content={postDetail?.content || ''}></MDViewer>
             <Rating noticeId={id} />
             <CommentInput
                 type="comment"
@@ -60,6 +61,9 @@ export const getServerSideProps: GetServerSideProps<{ id: string | string[] | un
 const _PostDetailContainer = styled.div`
     position: relative;
     margin: 0 20%;
+    > pre {
+        margin-bottom: 40px;
+    }
 `;
 
 const _TitleBox = styled.div`
