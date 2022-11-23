@@ -37,7 +37,7 @@ export default function Header() {
             {
                 summary: '임시저장',
                 onClickFunction: () => {
-                    console.log('임시저장');
+                    router.push('/save')
                 },
             },
             {

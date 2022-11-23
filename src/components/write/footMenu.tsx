@@ -3,17 +3,30 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { backPage } from '../../assets';
 import { memoirPost } from '../../apis/notice';
-import { PostRequest } from '../../models/notice/request';
+import { useRouter } from 'next/router';
+import { savePost } from '../../apis/notice';
+import { SavePostRequest } from '../../models/notice/request';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
+    Introduct: SavePostRequest;
     isReview?: boolean;
     id?: string;
-    reviewContent?: PostRequest;
+    reviewContent?: SavePostRequest;
 }
 
-function FootMenu({ setModal, isReview, id, reviewContent }: PropsType) {
+function FootMenu({ setModal, Introduct, isReview, id, reviewContent }: PropsType) {
     const SetModal = () => setModal(true);
+    const route = useRouter();
+
+    const RequestObj = {
+        title: Introduct.title,
+        content: Introduct.content,
+        image_url: Introduct.image_url,
+    };
+
+    const savePoint = () => savePost(RequestObj).then((res) => res && route.push('/'));
+
     const onClickSubmitReview = () => {
         if (id && reviewContent) memoirPost(reviewContent, id);
     };
@@ -31,7 +44,7 @@ function FootMenu({ setModal, isReview, id, reviewContent }: PropsType) {
                     <_SummitButton onClick={onClickSubmitReview}>작성하기</_SummitButton>
                 ) : (
                     <>
-                        <_SaveButton>임시저장</_SaveButton>
+                        <_SaveButton onClick={savePoint}>임시저장</_SaveButton>
 
                         <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
                     </>

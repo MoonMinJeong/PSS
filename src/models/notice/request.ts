@@ -7,9 +7,7 @@ export interface PostRequest {
 }
 
 export interface SavePostRequest {
-    title?: string;
-    content?: string;
-    image_url?: string;
-    stacks: string[];
-    nicknames: string[];
+    title: string,
+    content: string;
+    image_url: string;
 }

@@ -26,8 +26,8 @@ export const getPostDetail = async (notice_id: string) => {
     return (await instance.get<GetPostDetailResponse>(`/notice/${notice_id}`)).data;
 };
 
-export const savePost = async (body: SavePostRequest) => {
-    await instance.post('/notice/save', body);
+export const savePost = (body: SavePostRequest) => {
+    return instance.post('/notice/save', body);
 };
 
 export const memoirPost = async (body: PostRequest, notice_id: string) => {
