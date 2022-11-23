@@ -11,7 +11,11 @@ interface ReplyManageProps {
     replyData: ReplyData[] | undefined;
 }
 
-const ReplyManage = ({ replyData }: ReplyManageProps) => {
+interface Props extends ReplyManageProps {
+    commentId?: string;
+}
+
+const ReplyManage = ({ commentId, replyData }: Props) => {
     const [viewReply, setViewReply] = useState(false);
     const [viewReplyInput, setViewReplyInput] = useState(false);
     const id = useRouter().query.id as string;
@@ -32,6 +36,7 @@ const ReplyManage = ({ replyData }: ReplyManageProps) => {
                 <CommentInput
                     type="reply"
                     noticeId={id}
+                    commentId={commentId}
                     placeholder="답글을 입력해주세요."
                     isCancel={true}
                     onCancel={() => {
@@ -46,7 +51,7 @@ const ReplyManage = ({ replyData }: ReplyManageProps) => {
 
 const _ReplyManageContainer = styled.div`
     display: flex;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     > p {
         color: ${({ theme }) => theme.color.gray700};
         font-size: 14px;

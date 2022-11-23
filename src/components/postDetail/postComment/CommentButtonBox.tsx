@@ -7,14 +7,15 @@ interface Props {
     onCancel: () => void;
     text: string;
     noticeId: string;
+    commentId?: string;
     type: 'reply' | 'comment';
 }
 
-const CommentButtonBox = ({ isCancel, type, onCancel, text, noticeId }: Props) => {
+const CommentButtonBox = ({ isCancel, type, onCancel, text, noticeId, commentId }: Props) => {
     const onClickWrite = () => {
         type === 'comment'
             ? writeComment({ content: text }, noticeId)
-            : writeReply({ content: text }, noticeId);
+            : writeReply({ content: text }, commentId as string);
     };
     return (
         <_ButtonContainer>

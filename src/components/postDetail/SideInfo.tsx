@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { starIcon, viewIcon } from '../../assets';
 import arrow from '../../assets/postDetail/arrow.svg';
 import usePostDetail from '../../hooks/usePostDetail';
+import Link from 'next/link';
 
 interface Props {
     noticeId: string;
@@ -19,16 +20,20 @@ const SideInfo = ({ noticeId }: Props) => {
                 <p>{postDetail?.view_count}</p>
             </_SideinfoBox>
             {postDetail?.is_reviewed ? (
-                <_Memoir>
-                    <p>회고록 보러가기</p>
-                    <Image src={arrow} alt="화살표" width={14} height={16} />
-                </_Memoir>
-            ) : (
-                postDetail?.is_mine && (
+                <Link href={`/review/${noticeId}`}>
                     <_Memoir>
-                        <p>회고록 쓰러가기</p>
+                        <p>회고록 보러가기</p>
                         <Image src={arrow} alt="화살표" width={14} height={16} />
                     </_Memoir>
+                </Link>
+            ) : (
+                postDetail?.is_mine && (
+                    <Link href={`/review/write/${noticeId}`}>
+                        <_Memoir>
+                            <p>회고록 쓰러가기</p>
+                            <Image src={arrow} alt="화살표" width={14} height={16} />
+                        </_Memoir>
+                    </Link>
                 )
             )}
         </_SideinfoConatainer>
@@ -54,9 +59,8 @@ const _SideinfoBox = styled.div`
     }
 `;
 
-const _Memoir = styled.div`
+const _Memoir = styled.label`
     display: flex;
-    cursor: pointer;
     user-select: none;
     margin-top: 8px;
     > p {

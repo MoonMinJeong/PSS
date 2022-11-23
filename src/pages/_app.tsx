@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedS
         },
     });
     const route = useRouter();
-    const is_on_write_now = route.route.includes('write');
+    const is_on_write_now = route.route.includes('write') || route.route.includes('review');
     return (
         <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>

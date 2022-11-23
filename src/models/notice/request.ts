@@ -11,8 +11,3 @@ export interface SavePostRequest {
     content: string;
     image_url: string;
 }
-
-export interface MemoirRequest {
-    content: string;
-    image_url: string;
-}

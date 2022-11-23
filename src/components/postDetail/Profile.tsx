@@ -12,8 +12,10 @@ const Profile = ({ writerName, profile, createTime }: Props) => {
     const oneDayAGo = new Date(createTime);
     return (
         <_ProfileBox>
-            <CustomImage src={profile} width={28} height={28} />
-            <p className="writer">{writerName}</p>
+            <div>
+                <CustomImage src={profile} width={28} height={28} />
+                <p className="writer">{writerName}</p>
+            </div>
             <p className="howLong">{howLong(oneDayAGo)}</p>
         </_ProfileBox>
     );
@@ -23,7 +25,12 @@ const _ProfileBox = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
+    > div {
+        cursor: pointer;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
     > .writer {
         font-size: 16px;
         color: ${({ theme }) => theme.color.black};
