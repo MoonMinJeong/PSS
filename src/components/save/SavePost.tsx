@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { PostData } from '../../models/profile/responce';
+import { NoticeCardData } from '../../models/notice/response';
 
 interface PropsTyps {
-    saveNotice: PostData;
+    saveNotice: NoticeCardData;
     onClickForRemove: (notice_Id: string) => void;
 }
 
