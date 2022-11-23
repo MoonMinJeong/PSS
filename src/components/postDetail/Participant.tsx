@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import usePostDetail from '../../hooks/usePostDetail';
+import Link from 'next/link';
 
 interface Props {
     noticeId: string;
@@ -12,7 +13,9 @@ const Participant = ({ noticeId }: Props) => {
             <_Label>참가인원</_Label>
             <_ParticipantBox>
                 {postDetail?.nicknames.map((content, idx) => (
-                    <p key={idx}>{content}</p>
+                    <Link href={`https://www.github.com/${content}`} target="_blank">
+                        <p key={idx}>{content}</p>
+                    </Link>
                 ))}
             </_ParticipantBox>
         </div>

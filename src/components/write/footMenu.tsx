@@ -1,20 +1,24 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
-import { savePost } from '../../apis/notice';
 import { backPage } from '../../assets';
+import { memoirPost } from '../../apis/notice';
+import { useRouter } from 'next/router';
+import { savePost } from '../../apis/notice';
 import { SavePostRequest } from '../../models/notice/request';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
     Introduct: SavePostRequest;
+    isReview?: boolean;
+    id?: string;
+    reviewContent?: SavePostRequest;
 }
 
-function FootMenu({ setModal, Introduct }: PropsType) {
+function FootMenu({ setModal, Introduct, isReview, id, reviewContent }: PropsType) {
     const SetModal = () => setModal(true);
     const route = useRouter();
+
     const RequestObj = {
         title: Introduct.title,
         content: Introduct.content,
@@ -23,6 +27,9 @@ function FootMenu({ setModal, Introduct }: PropsType) {
 
     const savePoint = () => savePost(RequestObj).then((res) => res && route.push('/'));
 
+    const onClickSubmitReview = () => {
+        if (id && reviewContent) memoirPost(reviewContent, id);
+    };
     return (
         <_Wrapper>
             <Link href="/">
@@ -33,9 +40,15 @@ function FootMenu({ setModal, Introduct }: PropsType) {
             </Link>
 
             <_SaveSummitBox>
-                <_SaveButton onClick={savePoint}>임시저장</_SaveButton>
+                {isReview ? (
+                    <_SummitButton onClick={onClickSubmitReview}>작성하기</_SummitButton>
+                ) : (
+                    <>
+                        <_SaveButton onClick={savePoint}>임시저장</_SaveButton>
 
-                <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
+                        <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
+                    </>
+                )}
             </_SaveSummitBox>
         </_Wrapper>
     );

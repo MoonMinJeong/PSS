@@ -1,20 +1,7 @@
-export interface PostData {
-    notice_id: string;
-    title: string;
-    image_url: string;
-    introduction: string;
-    stacks: string[];
-    view_count: number;
-    stars: number;
-    likes: number;
-    nickname: string;
-    profile_image: string;
-    create_time: string;
-    mine: boolean;
-}
+import { NoticeCardData } from '../notice/response';
 
 export interface GetPostResponce {
-    notice_list: PostData[];
+    notice_list: NoticeCardData[];
     profile_image: string;
     nickname: string;
     email: string;

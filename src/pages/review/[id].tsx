@@ -15,15 +15,13 @@ interface PostDetailProps {
     id: string;
 }
 
-export const PostDetail: NextPage<PostDetailProps> = ({ id }) => {
+export const ShowReview: NextPage<PostDetailProps> = ({ id }) => {
     const { data: postDetail } = usePostDetail(id);
 
     return (
         <_PostDetailContainer>
-            <HeartButton noticeId={id} />
             <_TitleBox>
                 <PostSummary noticeId={id} />
-                <SideInfo noticeId={id} />
             </_TitleBox>
             <_TagBox>
                 {postDetail?.stacks.map((content, idx) => (
@@ -32,17 +30,6 @@ export const PostDetail: NextPage<PostDetailProps> = ({ id }) => {
             </_TagBox>
             {!!postDetail?.nicknames.length && <Participant noticeId={id} />}
             <MDViewer content={postDetail?.content || ''}></MDViewer>
-            <Rating noticeId={id} />
-            <CommentInput
-                type="comment"
-                placeholder="댓글을 입력해주세요."
-                isCancel={false}
-                onCancel={() => {}}
-                noticeId={id}
-            />
-            {postDetail?.list?.map((item, idx) => (
-                <Comment {...item} key={idx} />
-            ))}
         </_PostDetailContainer>
     );
 };
@@ -60,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<{ id: string | string[] | un
 
 const _PostDetailContainer = styled.div`
     position: relative;
-    margin: 0 20%;
+    margin: 80px 20% 0 20%;
     > pre {
         margin-bottom: 40px;
     }
@@ -77,4 +64,4 @@ const _TagBox = styled.div`
     gap: 4px;
 `;
 
-export default PostDetail;
+export default ShowReview;
