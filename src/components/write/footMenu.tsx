@@ -2,14 +2,21 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import { backPage } from '../../assets';
+import { memoirPost } from '../../apis/notice';
+import { PostRequest } from '../../models/notice/request';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
+    isReview?: boolean;
+    id?: string;
+    reviewContent?: PostRequest;
 }
 
-function FootMenu({ setModal }: PropsType) {
+function FootMenu({ setModal, isReview, id, reviewContent }: PropsType) {
     const SetModal = () => setModal(true);
-
+    const onClickSubmitReview = () => {
+        if (id && reviewContent) memoirPost(reviewContent, id);
+    };
     return (
         <_Wrapper>
             <Link href="/">
@@ -20,9 +27,15 @@ function FootMenu({ setModal }: PropsType) {
             </Link>
 
             <_SaveSummitBox>
-                <_SaveButton>임시저장</_SaveButton>
+                {isReview ? (
+                    <_SummitButton onClick={onClickSubmitReview}>작성하기</_SummitButton>
+                ) : (
+                    <>
+                        <_SaveButton>임시저장</_SaveButton>
 
-                <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
+                        <_SummitButton onClick={SetModal}>작성하기</_SummitButton>
+                    </>
+                )}
             </_SaveSummitBox>
         </_Wrapper>
     );

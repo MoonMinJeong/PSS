@@ -13,8 +13,3 @@ export interface SavePostRequest {
     stacks: string[];
     nicknames: string[];
 }
-
-export interface MemoirRequest {
-    content: string;
-    image_url: string;
-}
