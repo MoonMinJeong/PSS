@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowIcon } from '../assets';
-import icon from '../assets/dummy/profile.svg';
 import DropdownItem, { DropDownItem } from './common/DropdownItem';
 import { useEffect, useMemo, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useRouter } from 'next/router';
 import LoginModal from './login/LoginModal';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { getMyPost } from '../apis/profile';
+import Image from 'next/image';
 
 export default function Header() {
     const router = useRouter();
@@ -16,6 +17,14 @@ export default function Header() {
     useEffect(() => {
         setIsLogin(localStorage.getItem('access_token') !== null);
     }, []);
+    const { data } = useQuery(['getMyProfile', isLogin], () => getMyPost(), {
+        onSuccess: () => {
+            setIsLogin(true);
+        },
+        onError: () => {
+            setIsLogin(false);
+        },
+    });
     const [dropdownOpened, setDropdownOpened] = useState(false);
     const dropdownItems: DropDownItem[] = useMemo(() => {
         return [
@@ -42,11 +51,26 @@ export default function Header() {
                 onClickFunction: () => {
                     localStorage.removeItem('access_token');
                     localStorage.removeItem('refresh_token');
+                    setIsLogin(false);
                 },
                 isRed: true,
             },
         ];
     }, []);
+    const profileImage = useMemo(() => {
+        return (
+            data && (
+                <Image
+                    src={data.profile_image}
+                    width={36}
+                    height={36}
+                    style={{
+                        borderRadius: '50%',
+                    }}
+                />
+            )
+        );
+    }, [data]);
     const headerItem = useMemo(
         () =>
             isLogin ? (
@@ -55,7 +79,7 @@ export default function Header() {
                         <_WritePost>소개글 작성하기</_WritePost>
                     </Link>
                     <_ProfileWrapper>
-                        <Image src={icon} alt="프로필" width={36} height={36} />
+                        {profileImage}
                         <button onClick={() => setDropdownOpened(!dropdownOpened)}>
                             <ArrowIcon />
                         </button>
@@ -74,7 +98,7 @@ export default function Header() {
                     LOGIN
                 </_LoginButton>
             ),
-        [isLogin, dropdownOpened],
+        [isLogin, dropdownOpened, profileImage],
     );
     return (
         <>
@@ -90,6 +114,13 @@ export default function Header() {
         </>
     );
 }
+
+export async function getServerSideProps() {
+    const queryClient = new QueryClient();
+    await queryClient.prefetchQuery(['getMyProfile'], () => getMyPost());
+    return { props: { dehydratedState: dehydrate(queryClient) } };
+}
+
 const _Filler = styled.header`
     padding-bottom: 54px;
 `;
