@@ -43,7 +43,7 @@ export default function Header() {
             {
                 summary: '저장항목',
                 onClickFunction: () => {
-                    console.log('저장항목');
+                    router.push('/like');
                 },
             },
             {
