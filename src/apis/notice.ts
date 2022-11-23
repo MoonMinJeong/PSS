@@ -31,5 +31,5 @@ export const savePost = async (body: SavePostRequest) => {
 };
 
 export const memoirPost = async (body: PostRequest, notice_id: string) => {
-    await instance.post(`/notice/review?notice-id=${notice_id}`, body);
+    await instance.post(`/notice/review/${notice_id}`, body);
 };

@@ -1,60 +1,38 @@
-import { useRouter } from 'next/router';
-import { GetServerSideProps, NextPage } from 'next';
 import styled from '@emotion/styled';
-import Introduce from '../../components/write/PutInfoWrite';
-import InputSession from '../../components/write/PutInfoWrite';
-import { Editor } from '../../components/write/Editor';
-import FootMenu from '../../components/write/footMenu';
-import ModalWrite from '../../components/write/ModalWrite';
-import PreView from '../../components/write/Preview';
-import { useEffect, useState } from 'react';
-import { PostRequest } from '../../models/notice/request';
-import { getPostDetail } from '../../apis/notice';
-import { useQuery } from 'react-query';
+import HeartButton from '../../components/postDetail/HeartButton';
+import Participant from '../../components/postDetail/Participant';
+import PostSummary from '../../components/postDetail/PostSummary';
+import Rating from '../../components/postDetail/Rating';
+import Tag from '../../components/common/Tag';
+import SideInfo from '../../components/postDetail/SideInfo';
+import CommentInput from '../../components/postDetail/postComment/CommentInput';
+import Comment from '../../components/postDetail/postComment/Comment';
+import usePostDetail from '../../hooks/usePostDetail';
+import { GetServerSideProps, NextPage } from 'next';
+import MDViewer from '../../components/write/Editor/SetViewer';
 
-interface Props {
+interface PostDetailProps {
     id: string;
 }
 
-const Review: NextPage<Props> = ({ id }) => {
-    const [content, setContent] = useState<PostRequest>({
-        title: '',
-        content: '',
-        stacks: [],
-        nicknames: [],
-        image_url: '',
-    });
-    const {} = useQuery(['/notice', id], () => getPostDetail(id), {
-        onSuccess: (res) => {
-            setContent({
-                title: res.title,
-                stacks: res.stacks,
-                nicknames: res.nicknames,
-                content: '',
-                image_url: '',
-            });
-        },
-    });
+export const ShowReview: NextPage<PostDetailProps> = ({ id }) => {
+    const { data: postDetail } = usePostDetail(id);
+
     return (
-        <_Wrapper>
-            <_InputWrapper>
-                <InputSession Introduct={content} setIntroduct={setContent} />
-                <_EditorBox>
-                    <Editor Introduct={content} setIntroduct={setContent} />
-                </_EditorBox>
-                <FootMenu id={id} reviewContent={content} isReview setModal={() => {}} />
-                <ModalWrite
-                    setModal={() => {}}
-                    setIntroduct={setContent}
-                    Introduct={content}
-                    modal={false}
-                />
-            </_InputWrapper>
-            <PreView modal={false} setModal={() => {}} Introduct={content} />
-        </_Wrapper>
+        <_PostDetailContainer>
+            <_TitleBox>
+                <PostSummary noticeId={id} />
+            </_TitleBox>
+            <_TagBox>
+                {postDetail?.stacks.map((content, idx) => (
+                    <Tag text={content} key={idx} />
+                ))}
+            </_TagBox>
+            {!!postDetail?.nicknames.length && <Participant noticeId={id} />}
+            <MDViewer content={postDetail?.content || ''}></MDViewer>
+        </_PostDetailContainer>
     );
 };
-export default Review;
 
 export const getServerSideProps: GetServerSideProps<{ id: string | string[] | undefined }> = async (
     ctx,
@@ -67,15 +45,23 @@ export const getServerSideProps: GetServerSideProps<{ id: string | string[] | un
     };
 };
 
-const _Wrapper = styled.div`
+const _PostDetailContainer = styled.div`
+    position: relative;
+    margin: 80px 20% 0 20%;
+    > pre {
+        margin-bottom: 40px;
+    }
+`;
+
+const _TitleBox = styled.div`
     display: flex;
+    justify-content: space-between;
 `;
 
-const _InputWrapper = styled.div`
-    width: 50%;
-    padding: 20px 40px;
+const _TagBox = styled.div`
+    display: flex;
+    margin: 20px 0 32px;
+    gap: 4px;
 `;
 
-const _EditorBox = styled.div`
-    height: 500px;
-`;
+export default ShowReview;

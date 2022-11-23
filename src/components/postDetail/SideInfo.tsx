@@ -28,7 +28,7 @@ const SideInfo = ({ noticeId }: Props) => {
                 </Link>
             ) : (
                 postDetail?.is_mine && (
-                    <Link href={`/review/${noticeId}`}>
+                    <Link href={`/review/write/${noticeId}`}>
                         <_Memoir>
                             <p>회고록 쓰러가기</p>
                             <Image src={arrow} alt="화살표" width={14} height={16} />
