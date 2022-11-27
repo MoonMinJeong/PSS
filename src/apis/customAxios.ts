@@ -19,32 +19,3 @@ instance.interceptors.request.use(
         return Promise.reject(error);
     },
 );
-
-instance.interceptors.response.use(
-    function (response) {
-        return response;
-    },
-
-    async (error: any) => {
-        if (axios.isAxiosError(error) && error.response) {
-            const { config, response } = error;
-            if (response.status === 401 && window.localStorage.getItem('refresh_token')) {
-                try {
-                    window.localStorage.setItem('access_token', '');
-                    window.location.pathname = '/';
-                } catch (err: any) {
-                    if (err.response.data.status === 401 || err.response.data.status === 403) {
-                        window.localStorage.setItem('access_token', '');
-                        window.location.pathname = '/';
-                    }
-                }
-            } else if (axios.isAxiosError(error) && error.response) {
-                const { response } = error;
-                if (response.status === 403) {
-                    window.localStorage.setItem('access_token', '');
-                    window.location.pathname = '/';
-                }
-            } else return Promise.reject(error);
-        }
-    },
-);

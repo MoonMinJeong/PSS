@@ -9,6 +9,7 @@ import LoginModal from './login/LoginModal';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { getMyPost } from '../apis/profile';
 import Image from 'next/image';
+import logo from '../assets/logo.png';
 
 export default function Header() {
     const router = useRouter();
@@ -37,7 +38,7 @@ export default function Header() {
             {
                 summary: '임시저장',
                 onClickFunction: () => {
-                    router.push('/save')
+                    router.push('/save');
                 },
             },
             {
@@ -105,7 +106,11 @@ export default function Header() {
             <_Filler>
                 <_Wrapper>
                     <_Content>
-                        <p></p>
+                        <Link href={'/'}>
+                            <img src={logo.src} />
+                        </Link>
+                        <p>자신만의 프로젝트 보고서를 작성해보세요!</p>
+                        <i></i>
                         {headerItem}
                     </_Content>
                     {openModal && <LoginModal setOpenModal={setOpenModal} />}
@@ -124,6 +129,7 @@ export async function getServerSideProps() {
 const _Filler = styled.header`
     padding-bottom: 54px;
 `;
+
 const _Wrapper = styled.div`
     z-index: 99;
     width: 100%;
@@ -133,11 +139,25 @@ const _Wrapper = styled.div`
     align-items: center;
     position: fixed;
 `;
+
 const _Content = styled.div`
     display: flex;
-    width: 1020px;
+    width: 1080px;
     margin: 0 auto;
+    > img {
+        cursor: pointer;
+        height: 24px;
+        user-select: none;
+        margin-top: 4px;
+        margin-right: 24px;
+    }
     > p {
+        font-size: 18px;
+        margin-top: 10px;
+        user-select: none;
+        color: ${({ theme }) => theme.color.gray700};
+    }
+    > i {
         margin-right: auto;
     }
 `;
