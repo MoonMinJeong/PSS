@@ -16,7 +16,7 @@ function SavePost({ saveNotice, onClickForRemove }: PropsTyps) {
         <_Wrapper>
             <Link href="/">
                 <_ContentBox>
-                    <_Title>{saveNotice.nickname}</_Title>
+                    <_Title>{saveNotice.title}</_Title>
                     <_Content>{saveNotice.introduction}</_Content>
                 </_ContentBox>
             </Link>
