@@ -1,4 +1,4 @@
-import { NoticeCardData } from '../notice/response';
+import { NoticeCardData } from "../notice/response";
 
 export interface GetPostResponce {
     notice_list: NoticeCardData[];

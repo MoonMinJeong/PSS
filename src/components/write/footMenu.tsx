@@ -5,14 +5,14 @@ import { backPage } from '../../assets';
 import { memoirPost } from '../../apis/notice';
 import { useRouter } from 'next/router';
 import { savePost } from '../../apis/notice';
-import { SavePostRequest } from '../../models/notice/request';
+import { PostRequest, SavePostRequest } from '../../models/notice/request';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
-    Introduct: SavePostRequest;
+    Introduct: PostRequest;
     isReview?: boolean;
     id?: string;
-    reviewContent?: SavePostRequest;
+    reviewContent?: PostRequest;
 }
 
 function FootMenu({ setModal, Introduct, isReview, id, reviewContent }: PropsType) {
@@ -23,6 +23,8 @@ function FootMenu({ setModal, Introduct, isReview, id, reviewContent }: PropsTyp
         title: Introduct.title,
         content: Introduct.content,
         image_url: Introduct.image_url,
+        nicknames: Introduct.nicknames,
+        stacks: Introduct.stacks,
     };
 
     const savePoint = () => savePost(RequestObj).then((res) => res && route.push('/'));

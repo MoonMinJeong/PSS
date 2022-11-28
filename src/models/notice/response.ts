@@ -8,7 +8,7 @@ export interface NoticeCardData {
     stars: number;
     nickname: string;
     profile_image: string;
-    create_time: Date;
+    create_time: string;
     mine: boolean;
     likes: number;
 }
