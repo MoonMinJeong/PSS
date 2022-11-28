@@ -36,7 +36,12 @@ export interface CommentData {
     reply_dto_list?: ReplyData[];
 }
 
-export interface GetPostDetailResponse {
+export interface GetPostDetailResponse extends GetMemorialPostDetailResponse {
+    is_reviewed: boolean | null;
+    review_id: string;
+    list?: CommentData[];
+}
+export interface GetMemorialPostDetailResponse {
     notice_id: string;
     name: string;
     title: string;
@@ -50,8 +55,6 @@ export interface GetPostDetailResponse {
     is_mine: boolean;
     is_like: boolean;
     is_star: boolean;
-    is_reviewed: boolean;
     profile_image: string;
     create_time: Date;
-    list?: CommentData[];
 }

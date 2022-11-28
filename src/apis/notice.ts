@@ -1,5 +1,9 @@
 import { PostRequest, SavePostRequest } from '../models/notice/request';
-import { GetPostDetailResponse, GetPostListResponse } from '../models/notice/response';
+import {
+    GetMemorialPostDetailResponse,
+    GetPostDetailResponse,
+    GetPostListResponse,
+} from '../models/notice/response';
 import { instance } from './customAxios';
 
 export const writePost = async (body: PostRequest) => {
@@ -32,4 +36,11 @@ export const savePost = (body: PostRequest) => {
 
 export const memoirPost = async (body: PostRequest, notice_id: string) => {
     await instance.post(`/notice/review/${notice_id}`, body);
+};
+
+export const getMemoirPost = async (notice_id: string) => {
+    const { data } = await instance.get<GetMemorialPostDetailResponse>(
+        `/notice/review/${notice_id}`,
+    );
+    return data;
 };

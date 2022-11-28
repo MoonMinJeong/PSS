@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import usePostDetail from '../../hooks/usePostDetail';
 import Link from 'next/link';
+import { getMemoirPost } from '../../apis/notice';
+import { GetMemorialPostDetailResponse } from '../../models/notice/response';
 
 interface Props {
-    noticeId: string;
+    postDetail: GetMemorialPostDetailResponse;
 }
 
-const Participant = ({ noticeId }: Props) => {
-    const { data: postDetail } = usePostDetail(noticeId);
+const Participant = ({ postDetail }: Props) => {
     return (
         <div>
             <_Label>참가인원</_Label>

@@ -22,15 +22,15 @@ export const PostDetail: NextPage<PostDetailProps> = ({ id }) => {
         <_PostDetailContainer>
             <HeartButton noticeId={id} />
             <_TitleBox>
-                <PostSummary noticeId={id} />
-                <SideInfo noticeId={id} />
+                {postDetail && <PostSummary postDetail={postDetail} />}
+                <SideInfo noticeId={id} reviewId={postDetail?.review_id} />
             </_TitleBox>
             <_TagBox>
                 {postDetail?.stacks.map((content, idx) => (
                     <Tag text={content} key={idx} />
                 ))}
             </_TagBox>
-            {!!postDetail?.nicknames.length && <Participant noticeId={id} />}
+            {!!postDetail && <Participant postDetail={postDetail} />}
             <MDViewer content={postDetail?.content || ''}></MDViewer>
             <Rating noticeId={id} />
             <CommentInput
