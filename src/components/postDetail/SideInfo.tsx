@@ -7,9 +7,10 @@ import Link from 'next/link';
 
 interface Props {
     noticeId: string;
+    reviewId?: string;
 }
 
-const SideInfo = ({ noticeId }: Props) => {
+const SideInfo = ({ noticeId, reviewId }: Props) => {
     const { data: postDetail } = usePostDetail(noticeId);
     return (
         <_SideinfoConatainer>
@@ -19,8 +20,8 @@ const SideInfo = ({ noticeId }: Props) => {
                 <Image src={viewIcon} alt="조회수" width={16} />
                 <p>{postDetail?.view_count}</p>
             </_SideinfoBox>
-            {postDetail?.is_reviewed ? (
-                <Link href={`/review/${noticeId}`}>
+            {postDetail?.is_reviewed && reviewId ? (
+                <Link href={`/review/${reviewId}`}>
                     <_Memoir>
                         <p>회고록 보러가기</p>
                         <Image src={arrow} alt="화살표" width={14} height={16} />

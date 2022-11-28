@@ -11,6 +11,8 @@ function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedS
             queries: {
                 refetchOnWindowFocus: false,
                 staleTime: 10000,
+                keepPreviousData: true,
+                retry: 2,
             },
         },
     });

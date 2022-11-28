@@ -6,13 +6,15 @@ import Profile from './Profile';
 import { useState } from 'react';
 import Menulist from './Menulist';
 import usePostDetail from '../../hooks/usePostDetail';
+import { useQuery } from 'react-query';
+import { getMemoirPost } from '../../apis/notice';
+import { GetMemorialPostDetailResponse } from '../../models/notice/response';
 
 interface Props {
-    noticeId: string;
+    postDetail: GetMemorialPostDetailResponse;
 }
 
-const PostSummary = ({ noticeId }: Props) => {
-    const { data: postDetail } = usePostDetail(noticeId);
+const PostSummary = ({ postDetail }: Props) => {
     const [menulistOpened, setMenulistOpened] = useState(false);
     return (
         <_PostSummaryContainer>
