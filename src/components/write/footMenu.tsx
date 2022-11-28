@@ -26,7 +26,9 @@ function FootMenu({ setModal, Introduct, isReview, id, reviewContent }: PropsTyp
         stacks: Introduct?.stacks,
     };
 
-    const savePoint = () => savePost(RequestObj).then((res) => res && route.push('/'));
+    const savePoint = () => {
+        savePost(RequestObj).then((res) => res && route.push('/'));
+    };
 
     const onClickSubmitReview = () => {
         if (id && reviewContent) memoirPost(reviewContent, id);
