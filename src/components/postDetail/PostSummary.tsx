@@ -12,9 +12,10 @@ import { GetMemorialPostDetailResponse } from '../../models/notice/response';
 
 interface Props {
     postDetail: GetMemorialPostDetailResponse;
+    noticeId: string;
 }
 
-const PostSummary = ({ postDetail }: Props) => {
+const PostSummary = ({ postDetail, noticeId }: Props) => {
     const [menulistOpened, setMenulistOpened] = useState(false);
     return (
         <_PostSummaryContainer>
@@ -31,14 +32,14 @@ const PostSummary = ({ postDetail }: Props) => {
                         />
                         {menulistOpened && (
                             <OutsideClickHandler onOutsideClick={() => setMenulistOpened(false)}>
-                                <Menulist />
+                                <Menulist noticeId={noticeId} />
                             </OutsideClickHandler>
                         )}
                     </div>
                 )}
             </_TitleBox>
             <Profile
-                writerName={postDetail?.name!}
+                writerName={postDetail.name!}
                 profile={postDetail?.profile_image!}
                 createTime={postDetail?.create_time!}
             />

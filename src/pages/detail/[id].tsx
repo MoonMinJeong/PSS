@@ -17,12 +17,11 @@ interface PostDetailProps {
 
 export const PostDetail: NextPage<PostDetailProps> = ({ id }) => {
     const { data: postDetail } = usePostDetail(id);
-
     return (
         <_PostDetailContainer>
             <HeartButton noticeId={id} />
             <_TitleBox>
-                {postDetail && <PostSummary postDetail={postDetail} />}
+                {postDetail && <PostSummary postDetail={postDetail} noticeId={id} />}
                 <SideInfo noticeId={id} reviewId={postDetail?.review_id} />
             </_TitleBox>
             <_TagBox>
@@ -60,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<{ id: string | string[] | un
 
 const _PostDetailContainer = styled.div`
     position: relative;
-    margin: 0 20%;
+    margin: 40px 20%;
     > pre {
         margin-bottom: 40px;
     }

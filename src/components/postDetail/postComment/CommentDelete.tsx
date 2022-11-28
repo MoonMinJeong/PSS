@@ -15,7 +15,7 @@ interface Props {
 const CommentDelete = ({ type, replyId, commentId }: Props) => {
     const [showlist, setShowlist] = useState<boolean>(false);
     const onClickDeleteButton = () => {
-        type === 'comment' ? deleteComment(commentId as string) : deleteReply(replyId);
+        type === 'comment' ? deleteComment(commentId as string) : deleteReply(replyId as string);
     };
     return (
         <_Container type={type}>

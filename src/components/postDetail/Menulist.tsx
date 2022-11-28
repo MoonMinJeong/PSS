@@ -1,10 +1,23 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
+import { deletePost } from '../../apis/notice';
 
-const Menulist = () => {
+interface Props {
+    noticeId: string;
+}
+
+const Menulist = ({ noticeId }: Props) => {
+    const onDeleteButton = () => {
+        deletePost(noticeId);
+    };
     return (
         <_Container>
             <button className="modify">소개글 수정</button>
-            <button className="delete">소개글 삭제</button>
+            <Link href="/">
+                <button className="delete" onClick={() => onDeleteButton()}>
+                    소개글 삭제
+                </button>
+            </Link>
         </_Container>
     );
 };
