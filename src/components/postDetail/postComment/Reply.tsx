@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 import { ReplyData } from '../../../models/notice/response';
 import Profile from '../Profile';
+import CommentDelete from './CommentDelete';
 
-{
-    /*TODO. 자신 답글 삭제 기능 추가*/
-}
-const Reply = ({ nickname, content, image_url, created_at }: ReplyData) => {
+const Reply = ({ nickname, content, image_url, created_at, is_mine, id }: ReplyData) => {
     return (
         <_ReplyContainer>
             <Profile writerName={nickname} createTime={new Date(created_at)} profile={image_url} />
+            {is_mine && <CommentDelete type="reply" replyId={id} />}
             <p>{content}</p>
         </_ReplyContainer>
     );
@@ -19,6 +18,7 @@ const _ReplyContainer = styled.div`
     border-radius: 12px;
     width: 100%;
     margin: 12px 0;
+    position: relative;
     padding: 20px 20px 24px;
     > p {
         font-size: 16px;
