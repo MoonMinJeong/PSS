@@ -1,13 +1,11 @@
-import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from '@emotion/styled';
-import Introduce from '../../../components/write/PutInfoWrite';
 import InputSession from '../../../components/write/PutInfoWrite';
 import { Editor } from '../../../components/write/Editor';
 import FootMenu from '../../../components/write/footMenu';
 import ModalWrite from '../../../components/write/ModalWrite';
 import PreView from '../../../components/write/Preview';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PostRequest } from '../../../models/notice/request';
 import { getPostDetail } from '../../../apis/notice';
 import { useQuery } from 'react-query';
@@ -17,6 +15,8 @@ interface Props {
 }
 
 const Review: NextPage<Props> = ({ id }) => {
+    const [modal, setModal] = useState<boolean>(false);
+
     const [content, setContent] = useState<PostRequest>({
         title: '',
         content: '',
@@ -42,15 +42,15 @@ const Review: NextPage<Props> = ({ id }) => {
                 <_EditorBox>
                     <Editor Introduct={content} setIntroduct={setContent} />
                 </_EditorBox>
-                <FootMenu id={id} reviewContent={content} isReview setModal={() => {}} />
+                <FootMenu id={id} reviewContent={content} isReview setModal={setModal} />
                 <ModalWrite
-                    setModal={() => {}}
+                    setModal={setModal}
                     setIntroduct={setContent}
                     Introduct={content}
-                    modal={false}
+                    modal={modal}
                 />
             </_InputWrapper>
-            <PreView modal={false} setModal={() => {}} Introduct={content} />
+            <PreView modal={modal} setModal={setModal} Introduct={content} />
         </_Wrapper>
     );
 };

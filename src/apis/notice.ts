@@ -11,7 +11,7 @@ export const writePost = async (body: PostRequest) => {
 };
 
 export const modifyPost = async (body: PostRequest, notice_id: string) => {
-    await instance.put(`/notice?notice=${notice_id}`, body);
+    await instance.put(`/notice/${notice_id}`, body);
 };
 
 export const deletePost = async (notice_id: string) => {

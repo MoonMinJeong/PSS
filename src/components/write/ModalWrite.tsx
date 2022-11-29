@@ -5,16 +5,17 @@ import { Camera } from '../../assets';
 import { uploadImage } from '../../apis/image';
 import { PostRequest } from '../../models/notice/request';
 import { useRouter } from 'next/router';
-import { writePost } from '../../apis/notice';
+import { modifyPost, writePost } from '../../apis/notice';
 
 interface PropsType {
     setModal: (modal: boolean) => void;
     modal: boolean;
     Introduct: PostRequest;
     setIntroduct: Dispatch<SetStateAction<PostRequest>>;
+    id?: string;
 }
 
-function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
+function ModalWrite({ setModal, Introduct, setIntroduct, modal, id }: PropsType) {
     const ModalOff = () => setModal(false);
     const router = useRouter();
 
@@ -45,7 +46,10 @@ function ModalWrite({ setModal, Introduct, setIntroduct, modal }: PropsType) {
         }
     };
 
-    const PostSummit = () => writePost(Introduct).then(() => router.push('/'));
+    const PostSummit = () =>
+        id
+            ? modifyPost(Introduct, id).then(() => router.push('/'))
+            : writePost(Introduct).then(() => router.push('/'));
 
     return modal ? (
         <_Wrapper>

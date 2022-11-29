@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { EditorType } from '.';
 import styled from '@emotion/styled';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
@@ -16,6 +16,9 @@ function MDEditor({ Introduct, setIntroduct }: EditorType) {
     const Ref = useRef<HTMLDivElement | null>(null);
     const [change, setchange] = useState<string>('');
 
+    useEffect(() => {
+        setTimeout(() => setchange(Introduct.content),500) 
+    }, []);
     // hook
     const { setEdit, setView } = useEditFunction();
     const createElement = useCreateElement();
@@ -89,11 +92,11 @@ const _EditableDiv = styled.div`
         width: 5px;
     }
     ::-webkit-scrollbar-track {
-        background-color: ${({theme}) => theme.color.gray500};
+        background-color: ${({ theme }) => theme.color.gray500};
         border-radius: 5px;
     }
     ::-webkit-scrollbar-thumb {
-        background-color: ${({theme}) => theme.color.main};
+        background-color: ${({ theme }) => theme.color.main};
         border-radius: 5px;
     }
     &.HelloEditor {
