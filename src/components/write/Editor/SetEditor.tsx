@@ -6,6 +6,7 @@ import useEditFunction from '../../../hooks/useEditFunction';
 import ButtonList from './ButtonList';
 import useCreateElement from '../../../hooks/useCreateElement';
 import useAddMD from '../../../hooks/useAddMD';
+import useCursorGetSet from '../../../hooks/useCursorGetSet';
 
 export interface FocusNodeType {
     focusN: Node | null;
@@ -17,7 +18,7 @@ function MDEditor({ Introduct, setIntroduct }: EditorType) {
     const [change, setchange] = useState<string>('');
 
     useEffect(() => {
-        setTimeout(() => setchange(Introduct.content),500) 
+        setTimeout(() => setchange(Introduct.content), 500);
     }, []);
     // hook
     const { setEdit, setView } = useEditFunction();

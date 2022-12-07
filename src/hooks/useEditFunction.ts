@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import useCreateElement from './useCreateElement';
-import useCursorGetSet from './useCursorGetSet';
+import useCursorGetSet, { CursorType } from './useCursorGetSet';
 import useDisableMark from './useDisableMark';
 
 const useEditFunction = () => {
@@ -62,28 +62,21 @@ const useEditFunction = () => {
     ) => {
         if (!parent || !editNode) return null;
 
-        let sel = window.getSelection();
-        if (!sel) return null;
-
-        let pos = { pos: 0, done: false };
-        let node = sel.focusNode;
-        let off = sel.focusOffset;
-
-        if (!node) return null;
-
-        pos = getCursorPosition(editNode, node, off, pos);
+        const sel = window.getSelection();
+        const node = sel?.focusNode;
+        const off = sel?.focusOffset;
+        if (!sel || !node || typeof off !== 'number') return null;
 
         const [edit, markedBoolean] = setBrMarked(parent, DisableMark);
         if (markedBoolean) return null;
+
+        const pos = getCursorPosition(editNode, node, off);
 
         HtmlChange(edit);
 
         setTimeout(() => {
             sel?.removeAllRanges();
-            let range = setCursorPosition(editNode, document.createRange(), {
-                pos: pos.pos,
-                done: false,
-            });
+            let range = setCursorPosition(editNode, pos);
             if (!range) return null;
             range.collapse(true);
             sel?.addRange(range);

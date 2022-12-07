@@ -1,54 +1,71 @@
-const useCursorGetSet = () => {
-    const getCursorPosition = (
-        parent: Node,
-        node: Node,
-        offset: number,
-        stat: { pos: number; done: boolean },
-    ) => {
-        if (stat.done) return stat;
-        if (!parent.textContent) return stat;
+export interface CursorType {
+    line: number;
+    off: number;
+}
 
-        let currentNode = null;
-        if (parent.childNodes.length == 0) {
-            stat.pos += parent.textContent.length;
-        } else {
-            for (var i = 0; i < parent.childNodes.length && !stat.done; i++) {
-                currentNode = parent.childNodes[i];
-                if (currentNode === node) {
-                    stat.pos += offset;
-                    stat.done = true;
-                    return stat;
-                } else getCursorPosition(currentNode, node, offset, stat);
+const TextNullLen = (str: string | null) => (str ? str.length : 0);
+
+const useCursorGetSet = () => {
+    const getCursorPosition = (parent: Node, node: Node, offset: number) => {
+        const pos = { line: 0, off: 0 };
+        const Nodes = parent.childNodes;
+        let count = 0;
+
+        Nodes.forEach((element) => {
+            if (element.nodeValue === '\n') return;
+            if (element.hasChildNodes()) {
+                let offsetNum = 0;
+                element.childNodes.forEach((child) => {
+                    if (child === node) {
+                        pos.line = count;
+                        pos.off = offsetNum + offset;
+                        return;
+                    } else offsetNum += TextNullLen(child.textContent);
+                });
+            } else if (element === node) {
+                pos.line = count;
+                pos.off = offset;
+                return;
             }
-        }
-        return stat;
+            count++;
+        });
+        return pos;
     };
 
-    const setCursorPosition = (
-        parent: Node,
-        range: Range,
-        stat: { pos: number; done: boolean },
-    ) => {
-        if (stat.done) return range;
-        if (!parent.textContent) return;
+    const setCursorPosition = (parent: Node, pos: CursorType) => {
+        const range = document.createRange();
+        if (!parent.textContent) return range;
 
-        let currentNode = null;
-        if (parent.childNodes.length == 0) {
-            if (parent.textContent.length >= stat.pos) {
-                range.setStart(parent, stat.pos);
-                stat.done = true;
-            } else {
-                stat.pos = stat.pos - parent.textContent.length;
-            }
+        let { line, off } = pos;
+        let count = 0;
+        let done = false;
+        let Node = parent.childNodes[0];
+        parent.childNodes.forEach((element) => {
+            if (element.nodeValue === '\n' || done) return;
+            else if (line === count) {
+                done = true;
+                Node = element;
+            } else count++;
+        });
+        done = false;
+
+        if (Node.nodeValue === '') return range.setStart(parent, 0);
+        else if (Node.hasChildNodes()) {
+            Node.childNodes.forEach((element) => {
+                if (done) return;
+                const offsetNum = TextNullLen(element.textContent);
+                if (offsetNum - off >= 0) {
+                    range.setStart(element, off);
+                    done = true;
+                    return;
+                } else off -= offsetNum;
+            });
         } else {
-            for (var i = 0; i < parent.childNodes.length && !stat.done; i++) {
-                currentNode = parent.childNodes[i];
-                setCursorPosition(currentNode, range, stat);
-            }
+            range.setStart(Node, off);
         }
         return range;
     };
-    return [getCursorPosition,setCursorPosition] as const
+    return [getCursorPosition, setCursorPosition] as const;
 };
 
 export default useCursorGetSet;

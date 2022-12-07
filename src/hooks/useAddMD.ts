@@ -1,26 +1,47 @@
 import { uploadImage } from '../apis/image';
 import useCreateElement from './useCreateElement';
-import useCursorGetSet from './useCursorGetSet';
+import useCursorGetSet, { CursorType } from './useCursorGetSet';
 import useDisableMark from './useDisableMark';
+
+const Adding = (str: string, word: string, off: number) =>
+    [str.substring(0, off), word, str.substring(off)].join('');
+
+const Setting = (str: string, word: string) => `${word} ${str}`;
+
+const TextNullstr = (str: string | null) => (str ? str : '');
+
+const IsBr = (node: HTMLElement) => (node.innerHTML === '<br>' ? true : false);
 
 const useAddMD = () => {
     const [Mark, DisableMark] = useDisableMark();
     const createElement = useCreateElement();
     const [getCursorPosition, setCursorPosition] = useCursorGetSet();
 
-    const addMarkDown = (
-        parent: Node,
-        pos: { pos: number; done: boolean },
-        str: string,
-        Add: boolean,
-    ) => {
+    const addMarkDown = (parent: Node, pos: CursorType, str: string, Add: boolean) => {
         let MarkStr = '';
         let ViewStr = '';
         let currentNode = null;
-        let curLen = pos.pos;
+        let curLen = pos.off;
+        let { line, off } = pos;
 
-        if (parent.textContent) {
-            for (let i = 0; i < parent.childNodes.length; i++) {
+        const StringChange = (str: string) => {
+            MarkStr += DisableMark(str);
+            ViewStr += Mark(str);
+        };
+
+        if (parent.hasChildNodes()) {
+            parent.childNodes.forEach((element, i) => {
+                if (line === i) {
+                    if (IsBr(element as HTMLElement)) {
+                        StringChange(`<div>${str}</div>`);
+                    } else {
+                        const addText = TextNullstr(element.textContent);
+                        const curText = Add ? Adding(addText, str, off) : Setting(addText, str);
+                        StringChange(curText);
+                    }
+                } else StringChange(TextNullstr(element.textContent));
+            });
+            /*for (let i = 0; i < parent.childNodes.length; i++) {
                 currentNode = parent.childNodes[i] as HTMLElement;
                 if (currentNode.innerHTML === '<br>') {
                     MarkStr += '<div><br></div>';
@@ -49,11 +70,10 @@ const useAddMD = () => {
                     ViewStr += Mark(TextStr ? TextStr : '');
                 }
                 curLen -= TextLen;
-            }
+            }*/
         } else {
-            const NodeText = Add ? str : `${str} f`;
-            MarkStr += DisableMark(NodeText);
-            ViewStr += Mark(NodeText);
+            const NodeText = Add ? str : `${str} 텍스트`;
+            StringChange(NodeText);
         }
         return [MarkStr, ViewStr] as const;
     };
@@ -68,23 +88,19 @@ const useAddMD = () => {
         const sel = window.getSelection();
         const node = sel?.focusNode;
         const off = sel?.focusOffset;
-        let pos = { pos: 0, done: false };
-        if (!parent || !node || typeof off !== 'number') return '';
-        pos = getCursorPosition(parent, node, off, pos);
 
-        pos = { pos: pos.pos, done: false };
+        if (!parent || !node || typeof off !== 'number') return '';
+
+        const pos = getCursorPosition(parent, node, off);
         const [MarkStr, ViewStr] = addMarkDown(parent, pos, str, true);
-        pos = { pos: pos.pos + strLen, done: false };
+
         HtmlChange(MarkStr);
         ViewChange(ViewStr);
         parent.focus();
 
         setTimeout(() => {
             sel?.removeAllRanges();
-            let range = setCursorPosition(parent, document.createRange(), {
-                pos: pos.pos,
-                done: false,
-            });
+            let range = setCursorPosition(parent, pos);
             if (!range) return null;
             range.collapse(true);
             sel?.addRange(range);
@@ -95,6 +111,7 @@ const useAddMD = () => {
 
     const ClickButtonSet = (
         parent: HTMLElement | null,
+
         HtmlChange: (edit: string) => void,
         ViewChange: (view: string) => void,
         str: string,
@@ -102,14 +119,11 @@ const useAddMD = () => {
         const sel = window.getSelection();
         const node = sel?.focusNode;
         const off = sel?.focusOffset;
-        let pos = { pos: 0, done: false };
+
         if (!parent || !node || typeof off !== 'number') return '';
-        pos = getCursorPosition(parent, node, off, pos);
 
-        pos = { pos: pos.pos, done: false };
-
+        const pos = getCursorPosition(parent, node, off);
         const [MarkStr, ViewStr] = addMarkDown(parent, pos, str, false);
-        pos = { pos: pos.pos + str.length, done: false };
         HtmlChange(MarkStr);
         ViewChange(ViewStr);
         parent.focus();
@@ -122,7 +136,6 @@ const useAddMD = () => {
         url: string,
         ImageForm: FormData,
     ) => {
-        
         url = `![업로드중!!](${url})`;
         const REX = new RegExp(/\!\[(업로드중!!)\]\(([^\)]+)\)/i);
         const Len = url.length;
